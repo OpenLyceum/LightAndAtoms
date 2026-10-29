@@ -1,21 +1,220 @@
 {
-  "title": "Plantilla de Simulación",
+  "title": "Luz y átomos",
   "screens": {
-    "sim": "Simulación"
+    "spectrum": "Espectro EM",
+    "hydrogenAtom": "Átomo de hidrógeno",
+    "lineSpectra": "Espectros de líneas"
+  },
+  "units": {
+    "valueUnit": "{{value}} {{unit}}",
+    "hertz": "Hz",
+    "joules": "J",
+    "electronvolts": "eV",
+    "kilojoulesPerMole": "kJ/mol",
+    "kelvin": "K",
+    "inverseSeconds": "s⁻¹"
+  },
+  "common": {
+    "showEquations": "Mostrar ecuaciones",
+    "equations": "Ecuaciones",
+    "wavelength": "Longitud de onda",
+    "frequency": "Frecuencia",
+    "photonEnergy": "Energía por fotón",
+    "molarEnergy": "Energía por mol de fotones",
+    "clear": "Borrar",
+    "intensity": "Intensidad",
+    "wavelengthNm": "Longitud de onda (nm)",
+    "ultraviolet": "UV",
+    "infrared": "IR"
+  },
+  "spectrum": {
+    "wavelengthAxis": "Longitud de onda (m)",
+    "frequencyAxis": "Frecuencia (Hz)",
+    "increasingEnergy": "Mayor energía",
+    "visibleZoom": "Luz visible",
+    "regions": {
+      "gamma": "Rayos gamma",
+      "xRay": "Rayos X",
+      "ultraviolet": "Ultravioleta",
+      "visible": "Visible",
+      "infrared": "Infrarrojo",
+      "microwave": "Microondas",
+      "radio": "Ondas de radio"
+    },
+    "examples": {
+      "cobalt60": "Rayo gamma del cobalto 60",
+      "medicalXRay": "Radiografía médica",
+      "germicidalUV": "Lámpara UV germicida",
+      "sunburnUV": "Quemadura solar (UV-B)",
+      "blackLight": "Luz negra (UV-A)",
+      "violetLaser": "Láser violeta",
+      "greenLaser": "Puntero láser verde",
+      "sodiumLamp": "Farola de sodio",
+      "redLaser": "Puntero láser rojo",
+      "tvRemote": "Control remoto de TV",
+      "bodyHeat": "Calor de tu cuerpo",
+      "microwaveOven": "Horno de microondas",
+      "fmRadio": "Radio FM",
+      "amRadio": "Radio AM"
+    },
+    "chooseExample": "Ir a un ejemplo…",
+    "examplesTitle": "Ejemplos",
+    "compare": "Comparar dos fotones",
+    "photon1": "Fotón 1",
+    "photon2": "Fotón 2",
+    "region": "Región",
+    "bondComparison": "{{ratio}} × un enlace C–C (348 kJ/mol)",
+    "ratiosTitle": "Fotón 2 ÷ fotón 1",
+    "waveCaption": "Toda la luz viaja a c. Menor longitud de onda → mayor frecuencia.",
+    "notToScale": "Onda no a escala",
+    "sameScale": "Ambas ondas a la misma escala"
+  },
+  "hydrogenAtom": {
+    "emission": "Emisión",
+    "absorption": "Absorción",
+    "mode": "Modo",
+    "bohrModel": "Modelo de Bohr (radio de la órbita ∝ n²)",
+    "energyAxis": "Energía",
+    "ionizationLevel": "n = ∞ (electrón libre)",
+    "levelLabel": "n = {{n}}",
+    "moveElectron": "Mover el electrón a:",
+    "moveElectronAbsorptionHint": "Haz clic en un nivel inferior para bajarlo. Solo un fotón puede subirlo.",
+    "autoRelax": "El electrón baja por sí solo",
+    "energyUnits": "Unidades de energía",
+    "lamp": "Lámpara",
+    "fire": "Disparar un fotón",
+    "lampOn": "Flujo continuo",
+    "lampRegion": "Rango de la lámpara",
+    "ionized": "¡Ionizado! El electrón está libre.",
+    "recapture": "Recapturar el electrón",
+    "emissionSpectrum": "Espectro de emisión: líneas de los fotones que emitió el átomo",
+    "absorptionSpectrum": "Espectro de absorción: líneas que faltan en la luz de la lámpara",
+    "lastTransition": "Última transición",
+    "noTransitionYet": "Haz una transición para ver los cálculos.",
+    "series": {
+      "lyman": "Lyman",
+      "balmer": "Balmer",
+      "paschen": "Paschen",
+      "brackett": "Brackett",
+      "pfund": "Pfund"
+    }
+  },
+  "lineSpectra": {
+    "source": "Fuente de luz",
+    "sources": {
+      "dischargeTube": "Tubo de descarga",
+      "flameTest": "Prueba de llama",
+      "absorption": "Luz blanca a través de un gas",
+      "lightBulb": "Bombilla",
+      "sun": "El Sol",
+      "mystery": "Tubo misterioso"
+    },
+    "gas": "Gas",
+    "salt": "Metal",
+    "temperature": "Temperatura del filamento",
+    "elements": {
+      "hydrogen": "Hidrógeno",
+      "helium": "Helio",
+      "neon": "Neón",
+      "sodium": "Sodio",
+      "mercury": "Mercurio",
+      "argon": "Argón",
+      "krypton": "Kriptón",
+      "lithium": "Litio",
+      "potassium": "Potasio",
+      "calcium": "Calcio",
+      "strontium": "Estroncio",
+      "barium": "Bario",
+      "copper": "Cobre"
+    },
+    "eyepiece": "Lo que ves en el espectroscopio",
+    "showEmission": "Comparar con la emisión del gas",
+    "emissionOfGas": "Emisión del mismo gas",
+    "reference": "Referencia",
+    "none": "Ninguna",
+    "cursorReadout": "λ = {{value}} nm",
+    "mysteryQuestion": "¿Qué gas hay en el tubo?",
+    "mysteryQuestionTwo": "¿Qué dos gases hay en el tubo?",
+    "twoGases": "Dos gases",
+    "check": "Comprobar",
+    "newMystery": "Nuevo tubo misterioso",
+    "correct": "¡Correcto!",
+    "incorrect": "No del todo. Compara las líneas con una referencia.",
+    "score": "Puntuación: {{correct}} / {{attempts}}",
+    "spectroscope": "Espectroscopio",
+    "hiddenGas": "?"
+  },
+  "keyboardHelp": {
+    "spectrumMarker": "Marcadores del espectro",
+    "moveMarker": "Mover el marcador",
+    "moveMarkerFine": "Mover el marcador lentamente",
+    "jumpDecade": "Saltar una potencia de diez",
+    "wavelengthCursor": "Cursor de longitud de onda",
+    "moveCursor": "Mover el cursor 1 nm",
+    "moveCursorFine": "Mover el cursor 0,1 nm",
+    "jumpCursor": "Mover el cursor 20 nm"
   },
   "a11y": {
-    "screenSummary": {
-      "playArea": "El área de juego muestra el contenido principal de la simulación.",
-      "controlArea": "El área de control tiene un botón Restablecer todo que devuelve la simulación a su estado inicial.",
-      "interactionHint": "Explora la simulación interactuando con sus controles."
+    "timesTenTo": "por diez a la",
+    "spectrum": {
+      "screenSummary": {
+        "playArea": "El área de juego muestra el espectro electromagnético como una barra, desde los rayos gamma (longitud de onda corta) a la izquierda hasta las ondas de radio (longitud de onda larga) a la derecha, una franja ampliada de la luz visible y una onda animada para cada fotón.",
+        "controlArea": "El área de control muestra la longitud de onda, la frecuencia y la energía de cada fotón, un menú de ejemplos cotidianos, casillas para comparar dos fotones y mostrar las ecuaciones, y un botón Restablecer todo.",
+        "interactionHint": "Mueve el marcador del espectro con las flechas para cambiar la longitud de onda y observa cómo cambian la frecuencia y la energía."
+      },
+      "currentDetails": "El fotón 1 tiene una longitud de onda de {{wavelength}}, en la región {{region}}: frecuencia {{frequency}} hercios, energía {{energy}} julios por fotón, o {{molar}} kilojulios por mol.",
+      "currentDetailsCompare": "El fotón 2 tiene una longitud de onda de {{wavelength}}, en la región {{region}}. El fotón 2 tiene {{energyRatio}} veces la energía del fotón 1.",
+      "marker1": "Longitud de onda del fotón 1",
+      "marker2": "Longitud de onda del fotón 2",
+      "markerHelp": "A la izquierda, longitud de onda más corta y mayor energía; a la derecha, longitud de onda más larga y menor energía.",
+      "markerValue": "{{wavelength}}, {{region}}",
+      "examples": "Fuentes de ejemplo"
     },
-    "currentDetails": "La simulación está en su estado inicial.",
-    "controls": {
-      "exampleControl": "Control de ejemplo"
+    "hydrogenAtom": {
+      "screenSummary": {
+        "playArea": "El área de juego muestra un modelo de Bohr del átomo de hidrógeno, su diagrama de niveles de energía y una franja espectral que registra cada línea que el átomo emite o absorbe.",
+        "controlArea": "El área de control permite elegir emisión o absorción, mover el electrón entre niveles, ajustar y disparar la lámpara en modo absorción, elegir las unidades de energía y mostrar las ecuaciones. El botón Restablecer todo va al final.",
+        "interactionHint": "En modo emisión, lleva el electrón al nivel 3, luego al nivel 2, y escucha el fotón que emite."
+      },
+      "currentDetails": "El electrón está en el nivel {{n}}, con energía {{energy}}. {{lines}} líneas registradas.",
+      "currentDetailsIonized": "El átomo está ionizado: el electrón está libre. {{lines}} líneas registradas.",
+      "levelButton": "Nivel {{n}}",
+      "emitted": "El electrón baja del nivel {{from}} al nivel {{to}} y emite un fotón de {{wavelength}} nanómetros, {{color}}, de la serie de {{series}}.",
+      "absorbed": "Se absorbe un fotón de {{wavelength}} nanómetros. El electrón salta del nivel {{from}} al nivel {{to}}.",
+      "excited": "La descarga sube el electrón del nivel {{from}} al nivel {{to}}.",
+      "passedThrough": "El fotón de {{wavelength}} nanómetros atraviesa el átomo: su energía no coincide con ningún salto.",
+      "ionizedEvent": "El fotón de {{wavelength}} nanómetros libera el electrón. El átomo está ionizado.",
+      "recaptured": "El electrón es recapturado en el nivel 1.",
+      "colors": {
+        "ultraviolet": "ultravioleta",
+        "infrared": "infrarrojo",
+        "violet": "violeta",
+        "blue": "azul",
+        "cyan": "verde azulado",
+        "green": "verde",
+        "yellow": "amarillo",
+        "orange": "naranja",
+        "red": "rojo"
+      },
+      "lampWavelength": "Longitud de onda de la lámpara"
+    },
+    "lineSpectra": {
+      "screenSummary": {
+        "playArea": "El área de juego muestra una fuente de luz, la franja de color que se ve en el espectroscopio y una gráfica de intensidad frente a longitud de onda, de 380 a 780 nanómetros.",
+        "controlArea": "El área de control permite elegir la fuente de luz y su gas, metal o temperatura, un gas de referencia para comparar y, para el tubo misterioso, casillas para nombrar el gas. El botón Restablecer todo va al final.",
+        "interactionHint": "Elige un gas y luego mueve el cursor de longitud de onda por la gráfica con las flechas para leer la longitud de onda de cada línea brillante."
+      },
+      "currentDetails": "Fuente: {{source}}. La línea más brillante está a {{peak}} nanómetros. El cursor está a {{cursor}} nanómetros, donde la intensidad es del {{intensity}} por ciento.",
+      "cursor": "Cursor de longitud de onda",
+      "cursorHelp": "Muévelo por el espectro para leer la longitud de onda y la intensidad.",
+      "cursorValue": "{{value}} nanómetros, intensidad del {{intensity}} por ciento",
+      "mysterySource": "el tubo misterioso",
+      "correct": "Correcto.",
+      "incorrect": "Incorrecto. Inténtalo de nuevo."
     }
   },
   "preferences": {
     "title": "Simulación",
-    "exampleToggle": "Ejemplo de alternancia"
+    "inverseSeconds": "Mostrar la frecuencia en s⁻¹ en lugar de Hz"
   }
 }

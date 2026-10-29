@@ -1,135 +1,75 @@
-# Implementation Notes - SceneryStack Template
+# Implementation Notes - Light and Atoms
 
-Developer-facing notes on the **SceneryStackTemplate** scaffold. **Replace and expand this file when
-forking** to describe your sim's real architecture (see Stern Gerlach or Light Propagation for
-target quality). Until then, this documents what the template provides out of the box.
+For developers. The physics and data are in [model.md](./model.md); the file map is in
+[`AGENTS.md`](../AGENTS.md).
 
-## Architecture Overview
+## Architecture overview
 
-SceneryStackTemplate is the fleet-canonical starting point for new SceneryStack sims (one or N screens).
-It demonstrates Model–View separation, color profiles, localization, reset behavior, accessibility
-reference wiring, and reusable common components — **without** domain physics.
+Standard SceneryStack layout: `src/main.ts` (after the `brand → splash → assert → init` chain)
+builds three Screens, each with a `model/` and `view/` package. Shared code lives in
+`src/common/`:
 
 ```
-main.ts
-  └─ SimScreen             (Screen<SimModel, SimScreenView>)
-       ├─ SimModel          state + logic  (src/sim-screen/model/)  ← stub: add physics here
-       └─ SimScreenView     visuals        (src/sim-screen/view/)
-            ├─ SimScreenSummaryContent     (PDOM overview — reference a11y pattern)
-            └─ SimKeyboardHelpContent      (keyboard help dialog)
-
-src/common/
-  ├─ SimPanel.ts           pre-themed panel (uses SimColors)
-  ├─ SimButtonOptions.ts   flat button / combo-box option bundles
-  └─ TimeModel.ts          composable play/pause + elapsed time
-
-src/preferences/
-  ├─ SimPreferencesModel   sim-specific pref state
-  ├─ SimPreferencesNode    pref UI in Preferences → Simulation
-  └─ simQueryParameters    QueryStringMachine declarations
+common/model/   PhotonUtils, Bohr, Planck, SpectrumSynthesis, formatNumber   (no Scenery imports)
+common/view/    spectralColor, SpectrumStripNode, SpectrumMarkerNode, EquationsPanel,
+                ControlFactory, formatReadouts
+spectrum/       EM Spectrum screen
+hydrogen-atom/  Hydrogen Atom screen
+line-spectra/   Line Spectra screen
 ```
 
-Data flows Model → View through AXON `Property` objects (`.link()` / `.lazyLink()`). The view never
-integrates physics; the model never imports scenery.
+The EM Spectrum screen needs the sim preferences (frequency in s⁻¹), so `EMSpectrumScreen` takes
+the `LightAndAtomsPreferencesModel` built in `main.ts` as its first argument.
 
-## Forking checklist
+## Design decisions
 
-### Automated rename + scaffold (recommended)
+**Log wavelength as the EM marker's value.** `PhotonState.logWavelengthProperty` is
+log₁₀(λ / m); λ, ν, E and the region derive from it. The marker is an `AccessibleSlider` over that
+value, so keyboard steps are fractions of a decade (0.02, Shift 0.002, Page 1) and are the same
+everywhere on the bar. Short wavelengths are on the left so the visible band reads violet → red in
+every screen.
 
-```sh
-npm run rename -- --id my-sim --name "My Simulation"
-npm run scaffold-screens -- --screens Intro,Lab   # or omit --screens for one screen
-npm run check
-```
+**One marker class for two jobs.** `SpectrumMarkerNode` takes `valueToX` / `xToValue` from its
+owner, so the EM bar (log scale) and the Line Spectra cursor (linear, nm) share it. It mixes in
+`AccessibleSlider` and adds a plain `DragListener`, following Oscilloscope's
+`MeasurementCursorNode`; a `RichDragListener` would add a second arrow-key binding.
 
-Or from the workspace: `Baton/scripts/create-sim.sh --repo MySim --name "My Simulation"`.
+**Shared spectrum grid.** Every Line Spectra source is a `Float64Array` on
+`SPECTRUM_WAVELENGTHS` (380–780 nm, 0.25 nm). `SpectrumStripNode` (a `CanvasNode`, one fillRect
+per pixel column, repainted only on change) and `IntensityChartNode` (bamboo `LinePlot`) draw the
+same array at the same x scale, so the cursor line can run straight through the strips and the
+chart. `SpectrumStripNode` also draws the flat rainbows on the EM bar zoom and the Hydrogen
+absorption panel.
 
-`scripts/rename-sim.ts` updates sim-level identifiers (package id, Colors, Preferences).
-`scripts/scaffold-screens.ts` emits fleet-named screen folders and wires main/strings/icons.
+**Colours from spectra.** `spectralColor.perceivedColor` integrates a spectrum against CIE XYZ
+(adapted from InterferometryLab). Tube glow, flame, bulb and Sun colours therefore follow the line
+data; to change a flame colour, change `AtomicLines.ts`.
 
-### Manual steps (after rename/scaffold or if skipping the scripts)
+**Hydrogen events.** `HydrogenAtomModel.atomEventEmitter` reports every emission, absorption,
+excitation, pass-through, ionisation and recapture. The view turns them into
+`addAccessibleResponse` announcements; pass-throughs are muted during a steady stream so the
+screen reader is not flooded. Photons live in a model `ObservableArray`; `BohrAtomNode` keeps a
+`Map<Photon, PhotonNode>` in sync through the add/remove listeners and moves the nodes in `step`.
 
-1. **`doc/model.md`** — educator physics (equations, ranges, simplifications).
-2. **`doc/implementation-notes.md`** — this file, rewritten for your architecture.
-3. **Screen model(s)** — real Properties, `step(dt)`, `reset()`; compose `TimeModel` if animated.
-4. **Screen view(s)** — play area + controls; wire `ResetAllButton` to `model.reset()`.
-5. **`*Colors.ts`** — sim palette (default + projector profiles).
-6. **Locale JSON** — title, strings, `a11y` keys; register locales in `init.ts`.
-7. **`public/icons/icon.svg`** → `npm run icons`; align theme color in `index.html` / vite config.
-8. **`tests/setup.ts`** — `init({ name: … })` must match `package.json` name after rename.
-9. **`AGENTS.md`** — sim-specific file map and pitfalls for AI assistants.
+**Mode switch resets the atom.** Changing Emission ↔ Absorption calls `resetAtom()` (ground state,
+no photons, empty spectrum), because bright and dark lines mean different things.
 
-## Common components (keep when forking)
+**Mystery randomness.** `MysteryTube` takes an injectable `random` (default `dotRandom`, which
+`?randomSeed` makes repeatable); tests pass a seeded LCG.
 
-### SimPanel
+## Layout
 
-Every control panel should use `SimPanel` so projector-mode switching is automatic:
+All three screens use fixed layout constants at the top of each ScreenView (strip and chart sizes,
+column widths). Panels that change height (the Hydrogen control panel when the absorption hint or
+Recapture button appears; the Line Spectra source panel) are re-pinned from a `localBoundsProperty`
+Multilink rather than placed once.
 
-```typescript
-import { SimPanel } from "../../common/SimPanel.js";
-const panel = new SimPanel(content);
-const panelWide = new SimPanel(content, { xMargin: 20 });
-```
+## Testing
 
-### TimeModel
-
-Compose into your screen model for animation (do not subclass `TimeModel`):
-
-```typescript
-export class MyModel implements TModel {
-  public readonly timer = new TimeModel();  // pass true to auto-play on startup
-
-  public step(dt: number): void {
-    this.timer.step(dt);
-    // physics uses this.timer.timeProperty.value
-  }
-  public reset(): void { this.timer.reset(); /* restore initial state */ }
-}
-```
-
-Wire `TimeControlNode` to `model.timer.isPlayingProperty` in the view.
-
-### SimButtonOptions
-
-Spread flat button options into every push/round button and `TimeControlNode` (see `AGENTS.md`).
-Use `SIM_COMBO_BOX_OPTIONS` + `LIGHT_SURFACE_TEXT_FILL` for light control surfaces on dark panels.
-
-## Accessibility (reference implementation)
-
-The template is the **canonical OpenLyceum a11y reference**:
-
-- PDOM `accessibleName` on interactive nodes (prefer live `StringProperty`s).
-- `SimScreenSummaryContent` with a live `currentDetailsContent` `DerivedProperty` over model state.
-- Explicit `pdomOrder` + `SimKeyboardHelpContent`.
-- Strings under `a11y` in locale JSON → `StringManager.getA11yStrings()`.
-
-Full checklist: [Baton/ACCESSIBILITY.md](https://github.com/OpenLyceum/Baton/blob/main/ACCESSIBILITY.md).
-
-## Testing (fleet layout — keep when forking)
-
-| Path | Purpose |
-|---|---|
-| `vitest.config.ts` | `happy-dom`; `setupFiles: ["./tests/setup.ts"]`; `execArgv: ["--expose-gc"]` |
-| `tests/setup.ts` | Canvas/AudioContext mocks + `init()` before SceneryStack imports |
-| `tests/TimeModel.test.ts` | **Replace** with real model/physics tests mirroring `src/` |
-| `tests/memory-leak.test.ts` | WeakRef + `forceGC` dispose regression |
-| `tests/fuzz/fuzz.spec.ts` | Optional Playwright smoke via `?fuzz` |
-
-Run `npm test`. Expand `memory-leak.test.ts` when adding runtime-created nodes or Property links.
-
-## Multi-screen simulations
-
-Default is single-screen. To add screens, see **`doc/multi-screen.md`**: per-screen folders mirroring
-`src/sim-screen/`, `StringManager` screen-name getters, optional shared root model, a shared
-`src/common/{SimName}ScreenIcons.ts` module (`create{Screen}Icon()` factories wired as
-`homeScreenIcon` / `navigationBarIcon`), and register all screens in `main.ts`.
+Vitest unit tests cover the pure model (`tests/common/*`, `tests/spectrum`, `tests/hydrogen-atom`,
+`tests/line-spectra`) and the leak suite lists `SpectrumStripNode`, `SpectrumMarkerNode`,
+`WaveNode` and `TimeModel`. `npm run test:fuzz` runs the optional Playwright fuzz smoke.
 
 ## PWA
 
 After `npm run build`, the sim is installable offline via Workbox (`dist/manifest.webmanifest`).
-
-## Known template stubs (remove when forking)
-
-- `SimModel.step()` / `reset()` — empty placeholders until you add physics.
-- Placeholder play-area content in `SimScreenView` — replace with real UI.
-- `tests/TimeModel.test.ts` — sample only; add tests for your model under `tests/`.

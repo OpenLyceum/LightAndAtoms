@@ -21,24 +21,35 @@ import "./brand.js";
 
 import { onReadyToLaunch, PreferencesModel, Sim } from "scenerystack/sim";
 import { Tandem } from "scenerystack/tandem";
+import { HydrogenAtomScreen } from "./hydrogen-atom/HydrogenAtomScreen.js";
 import { StringManager } from "./i18n/StringManager.js";
-import { SimPreferencesModel } from "./preferences/SimPreferencesModel.js";
-import { SimPreferencesNode } from "./preferences/SimPreferencesNode.js";
-import SimColors from "./SimColors.js";
-import { SimScreen } from "./sim-screen/SimScreen.js";
+import LightAndAtomsColors from "./LightAndAtomsColors.js";
+import { LineSpectraScreen } from "./line-spectra/LineSpectraScreen.js";
+import { LightAndAtomsPreferencesModel } from "./preferences/LightAndAtomsPreferencesModel.js";
+import { LightAndAtomsPreferencesNode } from "./preferences/LightAndAtomsPreferencesNode.js";
+import { EMSpectrumScreen } from "./spectrum/EMSpectrumScreen.js";
 
 onReadyToLaunch(() => {
   const stringManager = StringManager.getInstance();
 
-  // Simulation-specific preferences; initial values come from simQueryParameters.
-  const simPreferences = new SimPreferencesModel(Tandem.ROOT.createTandem("preferences"));
+  // Simulation-specific preferences; initial values come from lightAndAtomsQueryParameters.
+  const simPreferences = new LightAndAtomsPreferencesModel(Tandem.ROOT.createTandem("preferences"));
 
   const screens = [
-    new SimScreen({
-      // The screen name Property updates automatically when the locale changes
-      name: stringManager.getScreenNames().simStringProperty,
-      tandem: Tandem.ROOT.createTandem("simScreen"),
-      backgroundColorProperty: SimColors.backgroundColorProperty,
+    new EMSpectrumScreen(simPreferences, {
+      name: stringManager.getScreenNames().spectrumStringProperty,
+      tandem: Tandem.ROOT.createTandem("spectrumScreen"),
+      backgroundColorProperty: LightAndAtomsColors.backgroundColorProperty,
+    }),
+    new HydrogenAtomScreen({
+      name: stringManager.getScreenNames().hydrogenAtomStringProperty,
+      tandem: Tandem.ROOT.createTandem("hydrogenAtomScreen"),
+      backgroundColorProperty: LightAndAtomsColors.backgroundColorProperty,
+    }),
+    new LineSpectraScreen({
+      name: stringManager.getScreenNames().lineSpectraStringProperty,
+      tandem: Tandem.ROOT.createTandem("lineSpectraScreen"),
+      backgroundColorProperty: LightAndAtomsColors.backgroundColorProperty,
     }),
   ];
 
@@ -53,7 +64,7 @@ onReadyToLaunch(() => {
       simulationOptions: {
         customPreferences: [
           {
-            createContent: (tandem: Tandem) => new SimPreferencesNode(simPreferences, tandem),
+            createContent: (tandem: Tandem) => new LightAndAtomsPreferencesNode(simPreferences, tandem),
           },
         ],
       },
@@ -63,12 +74,13 @@ onReadyToLaunch(() => {
       },
     }),
 
-    // Optional: fill in credits shown in Help → About
+    // Credits shown in Help → About
     credits: {
-      leadDesign: "",
-      softwareDevelopment: "",
+      leadDesign: "Martin Veillette",
+      softwareDevelopment: "Martin Veillette",
       team: "",
       qualityAssurance: "",
+      thanks: "Atomic line wavelengths: NIST Atomic Spectra Database (physics.nist.gov/asd).",
     },
   });
 

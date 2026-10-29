@@ -46,32 +46,6 @@ const stringProperties = LocalizedString.getNestedStringProperties({
 });
 
 /**
- * Explicit `a11y` shape exposed by {@link StringManager.getA11yStrings}.
- * Keep this in sync with the `a11y` key in `strings_en.json` — a locale key
- * rename that is not mirrored here fails at the getter return (not silently).
- */
-export type SimA11yStrings = {
-  readonly screenSummary: {
-    readonly playAreaStringProperty: ReadOnlyProperty<string>;
-    readonly controlAreaStringProperty: ReadOnlyProperty<string>;
-    readonly interactionHintStringProperty: ReadOnlyProperty<string>;
-  };
-  readonly currentDetailsStringProperty: ReadOnlyProperty<string>;
-  readonly controls: {
-    readonly exampleControlStringProperty: ReadOnlyProperty<string>;
-  };
-};
-
-/**
- * Explicit Preferences → Simulation labels from {@link StringManager.getPreferences}.
- * Same sync rule as {@link SimA11yStrings}.
- */
-export type SimPreferenceStrings = {
-  readonly titleStringProperty: ReadOnlyProperty<string>;
-  readonly exampleToggleStringProperty: ReadOnlyProperty<string>;
-};
-
-/**
  * StringManager is a singleton that provides typed access to all localized
  * strings. Use `StringManager.getInstance()` everywhere — never construct it
  * directly.
@@ -103,34 +77,71 @@ export class StringManager {
    * Each property updates automatically when the locale changes.
    */
   public getScreenNames(): {
-    readonly simStringProperty: ReadOnlyProperty<string>;
+    readonly spectrumStringProperty: ReadOnlyProperty<string>;
+    readonly hydrogenAtomStringProperty: ReadOnlyProperty<string>;
+    readonly lineSpectraStringProperty: ReadOnlyProperty<string>;
   } {
     return {
-      simStringProperty: stringProperties.screens.simStringProperty,
+      spectrumStringProperty: stringProperties.screens.spectrumStringProperty,
+      hydrogenAtomStringProperty: stringProperties.screens.hydrogenAtomStringProperty,
+      lineSpectraStringProperty: stringProperties.screens.lineSpectraStringProperty,
     };
   }
 
-  /**
-   * Accessibility (Interactive Description) StringProperties.
-   *
-   * Returns the reactive `a11y` string tree used by the parallel DOM:
-   *   - `screenSummary.*` — play-area / control-area overview and an interaction
-   *     hint, read by `SimScreenSummaryContent`.
-   *   - `currentDetails` — a paragraph describing the simulation's current state.
-   *     In a real sim, derive a live version from model Properties (see
-   *     LunarLander's ScreenSummaryContent for the canonical pattern).
-   *
-   * Add `accessibleName` / `accessibleHelpText` strings for individual controls
-   * to the `a11y` group too, then read them through this same nested tree.
-   */
-  public getA11yStrings(): SimA11yStrings {
-    return stringProperties.a11y;
+  /** Accessibility strings for the EM Spectrum screen. */
+  public getEMSpectrumA11yStrings() {
+    return stringProperties.a11y.spectrum;
+  }
+
+  /** Accessibility strings for the Hydrogen Atom screen. */
+  public getHydrogenAtomA11yStrings() {
+    return stringProperties.a11y.hydrogenAtom;
+  }
+
+  /** Accessibility strings for the Line Spectra screen. */
+  public getLineSpectraA11yStrings() {
+    return stringProperties.a11y.lineSpectra;
+  }
+
+  /** Unit symbols and the value–unit pattern. */
+  public getUnitStrings() {
+    return stringProperties.units;
+  }
+
+  /** Labels shared by several screens. */
+  public getCommonStrings() {
+    return stringProperties.common;
+  }
+
+  /** Visible text of the EM Spectrum screen. */
+  public getEMSpectrumStrings() {
+    return stringProperties.spectrum;
+  }
+
+  /** Visible text of the Hydrogen Atom screen. */
+  public getHydrogenAtomStrings() {
+    return stringProperties.hydrogenAtom;
+  }
+
+  /** Visible text of the Line Spectra screen. */
+  public getLineSpectraStrings() {
+    return stringProperties.lineSpectra;
+  }
+
+  /** Keyboard-help dialog labels (also used by LightAndAtomsHotkeyData). */
+  public getKeyboardHelpStrings() {
+    return stringProperties.keyboardHelp;
+  }
+
+  /** "times ten to the", for reading scientific notation aloud. */
+  public getTimesTenToStringProperty(): ReadOnlyProperty<string> {
+    return stringProperties.a11y.timesTenToStringProperty;
   }
 
   /**
    * Simulation-specific preference labels shown in Preferences → Simulation.
    */
-  public getPreferences(): SimPreferenceStrings {
+  public getPreferences() {
     return stringProperties.preferences;
   }
 }

@@ -1,24 +1,41 @@
-# SceneryStack Template
+# Light and Atoms
 
 [![CI](../../actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
 
-A reusable SceneryStack simulation template for one or N screens, built with
-[SceneryStack](https://scenerystack.org/), Vite 8, TypeScript 7, and Biome 2.
+Light and the atom for introductory (General) chemistry: the electromagnetic spectrum with
+c = λν and E = hν, the Bohr hydrogen atom emitting and absorbing photons, and the line spectra of
+real gases and flames through a spectroscope. Built with [SceneryStack](https://scenerystack.org/);
+runs offline as a Progressive Web App.
 
 ## Features
 
-- SceneryStack scaffold with model/view separation (`rename` + `scaffold-screens` for one or N screens)
-- English, Spanish, and French localization via `StringManager`
-- Default and projector color profiles
-- Progressive Web App (installable, offline-capable)
-- Git hooks for Biome pre-commit checks
-- Shared GitHub Actions CI via `OpenLyceum/Baton`
+- **EM Spectrum.** Drag a photon from gamma rays to radio waves along a logarithmic spectrum
+  bar with wavelength and frequency axes and a magnified visible band. Read its wavelength,
+  frequency, energy per photon and per mole (compared with a C–C bond), and watch its wave: every
+  wave moves at c, so shorter waves oscillate faster. Jump to 14 everyday sources (a microwave
+  oven, a TV remote, a sodium lamp, a medical X-ray…). Compare two photons with both waves drawn to
+  the same scale and the ratios λ₂/λ₁, ν₂/ν₁, E₂/E₁.
+- **Hydrogen Atom.** A Bohr atom with orbits ∝ n² beside its energy-level diagram drawn to scale.
+  In emission mode, lift the electron and drop it: each drop emits a photon of λ = hc/|ΔE| and adds
+  a line to a UV / visible / IR spectrum (Lyman, Balmer, Paschen and beyond). In absorption mode,
+  fire photons from a lamp: only those whose energy matches a jump are absorbed, others pass
+  through, and short enough ones ionise the atom.
+- **Line Spectra.** A spectroscope pointed at gas discharge tubes (H, He, Ne, Na, Hg, Ar, Kr),
+  flame tests (Li, Na, K, Ca, Sr, Ba, Cu), white light through a gas, a light bulb (filament
+  temperature slider) and the Sun with its Fraunhofer lines. The eyepiece strip, the intensity chart
+  and a wavelength cursor line up, a reference gas can be shown underneath, and a mystery tube (one
+  or two gases) is to be identified. Source colours are computed from the spectra, not picked.
+- **Show equations** on every screen: c = λν, E = hν, E × N_A, E_n = −2.18 × 10⁻¹⁸ J / n²,
+  ΔE, λ = hc/|ΔE| and the Rydberg equation, with the current numbers substituted.
+- **Accessible:** keyboard operation throughout, spoken descriptions of every emission and
+  absorption, live screen summaries, keyboard-help dialogs.
+- English, French and Spanish; default and projector colour profiles; installable PWA. A
+  preference (or `?inverseSeconds`) writes frequency in s⁻¹ instead of Hz.
 
 ## Quick Start
 
 ```bash
 npm install
-npm run icons    # generate PNG icons from public/icons/icon.svg
 npm start        # dev server → http://localhost:5173
 ```
 
@@ -39,8 +56,6 @@ npm start        # dev server → http://localhost:5173
 | `npm run format` | Auto-format all files |
 | `npm run fix` | Lint + auto-fix |
 | `npm run icons` | Regenerate PNG icons from `public/icons/icon.svg` |
-| `npm run rename` | Sim-level fork/rename (`--id`, `--name`) |
-| `npm run scaffold-screens` | Emit N fleet-named screen packages from `sim-screen/` (`--shared-model` optional) |
 | `npm run release` | `check && lint && build && test`, then version patch + push tags |
 | `npm run clean` | Remove `dist/` |
 

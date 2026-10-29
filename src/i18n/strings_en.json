@@ -1,21 +1,220 @@
 {
-  "title": "SceneryStack Template",
+  "title": "Light and Atoms",
   "screens": {
-    "sim": "Sim"
+    "spectrum": "EM Spectrum",
+    "hydrogenAtom": "Hydrogen Atom",
+    "lineSpectra": "Line Spectra"
+  },
+  "units": {
+    "valueUnit": "{{value}} {{unit}}",
+    "hertz": "Hz",
+    "joules": "J",
+    "electronvolts": "eV",
+    "kilojoulesPerMole": "kJ/mol",
+    "kelvin": "K",
+    "inverseSeconds": "s⁻¹"
+  },
+  "common": {
+    "showEquations": "Show equations",
+    "equations": "Equations",
+    "wavelength": "Wavelength",
+    "frequency": "Frequency",
+    "photonEnergy": "Energy per photon",
+    "molarEnergy": "Energy per mole of photons",
+    "clear": "Clear",
+    "intensity": "Intensity",
+    "wavelengthNm": "Wavelength (nm)",
+    "ultraviolet": "UV",
+    "infrared": "IR"
+  },
+  "spectrum": {
+    "wavelengthAxis": "Wavelength (m)",
+    "frequencyAxis": "Frequency (Hz)",
+    "increasingEnergy": "Higher energy",
+    "visibleZoom": "Visible light",
+    "regions": {
+      "gamma": "Gamma rays",
+      "xRay": "X-rays",
+      "ultraviolet": "Ultraviolet",
+      "visible": "Visible",
+      "infrared": "Infrared",
+      "microwave": "Microwaves",
+      "radio": "Radio waves"
+    },
+    "examples": {
+      "cobalt60": "Gamma ray from cobalt-60",
+      "medicalXRay": "Medical X-ray",
+      "germicidalUV": "Germicidal UV lamp",
+      "sunburnUV": "Sunburn (UV-B)",
+      "blackLight": "Black light (UV-A)",
+      "violetLaser": "Violet laser",
+      "greenLaser": "Green laser pointer",
+      "sodiumLamp": "Sodium street lamp",
+      "redLaser": "Red laser pointer",
+      "tvRemote": "TV remote control",
+      "bodyHeat": "Heat from your body",
+      "microwaveOven": "Microwave oven",
+      "fmRadio": "FM radio",
+      "amRadio": "AM radio"
+    },
+    "chooseExample": "Jump to an example…",
+    "examplesTitle": "Examples",
+    "compare": "Compare two photons",
+    "photon1": "Photon 1",
+    "photon2": "Photon 2",
+    "region": "Region",
+    "bondComparison": "{{ratio}} × a C–C bond (348 kJ/mol)",
+    "ratiosTitle": "Photon 2 ÷ Photon 1",
+    "waveCaption": "All light travels at c. Shorter wavelength → higher frequency.",
+    "notToScale": "Wave not to scale",
+    "sameScale": "Both waves drawn to the same scale"
+  },
+  "hydrogenAtom": {
+    "emission": "Emission",
+    "absorption": "Absorption",
+    "mode": "Mode",
+    "bohrModel": "Bohr model (orbit radius ∝ n²)",
+    "energyAxis": "Energy",
+    "ionizationLevel": "n = ∞ (free electron)",
+    "levelLabel": "n = {{n}}",
+    "moveElectron": "Move the electron to:",
+    "moveElectronAbsorptionHint": "Drop down by clicking a lower level. Only a photon can lift it.",
+    "autoRelax": "Electron falls back on its own",
+    "energyUnits": "Energy units",
+    "lamp": "Lamp",
+    "fire": "Fire one photon",
+    "lampOn": "Steady stream",
+    "lampRegion": "Lamp range",
+    "ionized": "Ionized! The electron is free.",
+    "recapture": "Recapture electron",
+    "emissionSpectrum": "Emission spectrum: lines from photons the atom gave out",
+    "absorptionSpectrum": "Absorption spectrum: lines missing from the lamp's light",
+    "lastTransition": "Last transition",
+    "noTransitionYet": "Make a transition to see the numbers.",
+    "series": {
+      "lyman": "Lyman",
+      "balmer": "Balmer",
+      "paschen": "Paschen",
+      "brackett": "Brackett",
+      "pfund": "Pfund"
+    }
+  },
+  "lineSpectra": {
+    "source": "Light source",
+    "sources": {
+      "dischargeTube": "Gas discharge tube",
+      "flameTest": "Flame test",
+      "absorption": "White light through gas",
+      "lightBulb": "Light bulb",
+      "sun": "The Sun",
+      "mystery": "Mystery tube"
+    },
+    "gas": "Gas",
+    "salt": "Metal",
+    "temperature": "Filament temperature",
+    "elements": {
+      "hydrogen": "Hydrogen",
+      "helium": "Helium",
+      "neon": "Neon",
+      "sodium": "Sodium",
+      "mercury": "Mercury",
+      "argon": "Argon",
+      "krypton": "Krypton",
+      "lithium": "Lithium",
+      "potassium": "Potassium",
+      "calcium": "Calcium",
+      "strontium": "Strontium",
+      "barium": "Barium",
+      "copper": "Copper"
+    },
+    "eyepiece": "What you see in the spectroscope",
+    "showEmission": "Compare with the gas's emission",
+    "emissionOfGas": "Emission of the same gas",
+    "reference": "Reference",
+    "none": "None",
+    "cursorReadout": "λ = {{value}} nm",
+    "mysteryQuestion": "Which gas is in the tube?",
+    "mysteryQuestionTwo": "Which two gases are in the tube?",
+    "twoGases": "Two gases",
+    "check": "Check",
+    "newMystery": "New mystery tube",
+    "correct": "Correct!",
+    "incorrect": "Not quite. Compare the lines with a reference.",
+    "score": "Score: {{correct}} / {{attempts}}",
+    "spectroscope": "Spectroscope",
+    "hiddenGas": "?"
+  },
+  "keyboardHelp": {
+    "spectrumMarker": "Spectrum markers",
+    "moveMarker": "Move marker",
+    "moveMarkerFine": "Move marker slowly",
+    "jumpDecade": "Jump one power of ten",
+    "wavelengthCursor": "Wavelength cursor",
+    "moveCursor": "Move cursor 1 nm",
+    "moveCursorFine": "Move cursor 0.1 nm",
+    "jumpCursor": "Move cursor 20 nm"
   },
   "a11y": {
-    "screenSummary": {
-      "playArea": "The play area shows the main simulation content.",
-      "controlArea": "The control area has a Reset All button that returns the simulation to its starting state.",
-      "interactionHint": "Explore the simulation by interacting with its controls."
+    "timesTenTo": "times ten to the",
+    "spectrum": {
+      "screenSummary": {
+        "playArea": "The play area shows the electromagnetic spectrum as a bar from gamma rays (short wavelength) on the left to radio waves (long wavelength) on the right, a magnified strip of visible light, and an animated wave for each photon.",
+        "controlArea": "The control area has readouts of each photon's wavelength, frequency and energy, a menu of everyday examples, checkboxes to compare two photons and to show the equations, and a Reset All button.",
+        "interactionHint": "Move the spectrum marker with the arrow keys to change the wavelength and watch the frequency and energy change."
+      },
+      "currentDetails": "Photon 1 is {{wavelength}}, in the {{region}} region: frequency {{frequency}} hertz, energy {{energy}} joules per photon, or {{molar}} kilojoules per mole.",
+      "currentDetailsCompare": "Photon 2 is {{wavelength}}, in the {{region}} region. Photon 2 has {{energyRatio}} times the energy of photon 1.",
+      "marker1": "Photon 1 wavelength",
+      "marker2": "Photon 2 wavelength",
+      "markerHelp": "Left is shorter wavelength and higher energy; right is longer wavelength and lower energy.",
+      "markerValue": "{{wavelength}}, {{region}}",
+      "examples": "Example sources"
     },
-    "currentDetails": "The simulation is in its initial state.",
-    "controls": {
-      "exampleControl": "Example control"
+    "hydrogenAtom": {
+      "screenSummary": {
+        "playArea": "The play area shows a Bohr model of a hydrogen atom, its energy-level diagram, and a spectrum strip that records each line the atom emits or absorbs.",
+        "controlArea": "The control area chooses emission or absorption, moves the electron between levels, sets and fires the lamp in absorption mode, chooses energy units, and shows the equations. A Reset All button is last.",
+        "interactionHint": "In emission mode, move the electron to level 3, then to level 2, and listen for the photon it emits."
+      },
+      "currentDetails": "The electron is in level {{n}}, with energy {{energy}}. {{lines}} lines recorded.",
+      "currentDetailsIonized": "The atom is ionized: the electron is free. {{lines}} lines recorded.",
+      "levelButton": "Level {{n}}",
+      "emitted": "The electron drops from level {{from}} to level {{to}} and emits a {{wavelength}} nanometre photon, {{color}}, in the {{series}} series.",
+      "absorbed": "A {{wavelength}} nanometre photon is absorbed. The electron jumps from level {{from}} to level {{to}}.",
+      "excited": "The discharge lifts the electron from level {{from}} to level {{to}}.",
+      "passedThrough": "The {{wavelength}} nanometre photon passes straight through: its energy matches no jump.",
+      "ionizedEvent": "The {{wavelength}} nanometre photon frees the electron. The atom is ionized.",
+      "recaptured": "The electron is recaptured into level 1.",
+      "colors": {
+        "ultraviolet": "ultraviolet",
+        "infrared": "infrared",
+        "violet": "violet",
+        "blue": "blue",
+        "cyan": "blue-green",
+        "green": "green",
+        "yellow": "yellow",
+        "orange": "orange",
+        "red": "red"
+      },
+      "lampWavelength": "Lamp wavelength"
+    },
+    "lineSpectra": {
+      "screenSummary": {
+        "playArea": "The play area shows a light source, the coloured strip seen through the spectroscope, and a chart of intensity against wavelength from 380 to 780 nanometres.",
+        "controlArea": "The control area chooses the light source and its gas, metal or temperature, a reference gas to compare with, and, for the mystery tube, checkboxes to name the gas. A Reset All button is last.",
+        "interactionHint": "Choose a gas, then move the wavelength cursor along the chart with the arrow keys to read the wavelength of each bright line."
+      },
+      "currentDetails": "Showing {{source}}. The brightest line is at {{peak}} nanometres. The cursor is at {{cursor}} nanometres, where the intensity is {{intensity}} percent.",
+      "cursor": "Wavelength cursor",
+      "cursorHelp": "Move along the spectrum to read wavelength and intensity.",
+      "cursorValue": "{{value}} nanometres, intensity {{intensity}} percent",
+      "mysterySource": "the mystery tube",
+      "correct": "Correct.",
+      "incorrect": "Not correct. Try again."
     }
   },
   "preferences": {
     "title": "Simulation",
-    "exampleToggle": "Example Toggle"
+    "inverseSeconds": "Show frequency in s⁻¹ instead of Hz"
   }
 }
