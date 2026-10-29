@@ -285,7 +285,7 @@ export class HydrogenAtomScreenView extends ScreenView {
       brackett: strings.series.brackettStringProperty,
       pfund: strings.series.pfundStringProperty,
     };
-    const describe = (event: AtomEvent): string => {
+    const describeEvent = (event: AtomEvent): string => {
       if (event.kind === "emitted" || event.kind === "absorbed") {
         const nm = metersToNm(event.wavelength);
         const pattern = event.kind === "emitted" ? a11y.emittedStringProperty : a11y.absorbedStringProperty;
@@ -314,7 +314,7 @@ export class HydrogenAtomScreenView extends ScreenView {
       if (event.kind === "passedThrough" && model.lampOnProperty.value) {
         return;
       }
-      this.addAccessibleResponse(describe(event));
+      this.addAccessibleResponse(describeEvent(event));
     });
 
     this.addChild(
