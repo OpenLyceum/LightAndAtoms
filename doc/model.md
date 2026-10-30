@@ -59,7 +59,8 @@ violet / green / red laser pointers (405 / 532 / 650 nm), sodium street lamp (58
 so a shorter wave oscillates faster at any fixed point. A single wave's on-screen wavelength is a
 logarithmic function of the real one and is **not to scale**. In compare mode both waves are drawn
 at **one common linear scale** (the longer one 200 px), so a photon of one fifth the wavelength
-really shows five times as many crests; below 4 px a wave is clamped.
+really shows five times as many crests; below 4 px a wave is clamped. When clamping is needed, the
+caption switches to "Wave not to scale" rather than claiming a common scale.
 
 ## Hydrogen Atom
 

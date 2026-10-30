@@ -133,8 +133,10 @@ export class EnergyLevelDiagramNode extends Node {
       valueTexts.push(valueText);
       this.addChild(valueText);
 
-      // Pointer target: click a level to move the electron there.
-      const hit = new Rectangle(0, y - HIT_HEIGHT / 2, LEVEL_WIDTH, HIT_HEIGHT, {
+      // Split crowded targets at the midpoint between levels so a higher level cannot steal a click.
+      const hitTop = n < MAX_LEVEL ? Math.max(y - HIT_HEIGHT / 2, (y + levelY(n + 1)) / 2) : y - HIT_HEIGHT / 2;
+      const hitBottom = n > 1 ? Math.min(y + HIT_HEIGHT / 2, (y + levelY(n - 1)) / 2) : y + HIT_HEIGHT / 2;
+      const hit = new Rectangle(0, hitTop, LEVEL_WIDTH, hitBottom - hitTop, {
         fill: "transparent",
         cursor: "pointer",
       });

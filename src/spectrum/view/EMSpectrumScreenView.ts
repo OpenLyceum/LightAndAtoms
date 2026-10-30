@@ -43,7 +43,7 @@ import { BAR_HEIGHT, EMSpectrumBarNode, ZOOM_HEIGHT, ZOOM_TOP } from "./EMSpectr
 import { EMSpectrumScreenSummaryContent } from "./EMSpectrumScreenSummaryContent.js";
 import { PhotonReadoutPanel } from "./PhotonReadoutPanel.js";
 import { regionStringProperty } from "./regionStrings.js";
-import { logScreenWavelength, sharedScreenWavelengths, WaveNode } from "./WaveNode.js";
+import { canDrawWavesToScale, logScreenWavelength, sharedScreenWavelengths, WaveNode } from "./WaveNode.js";
 
 /** Top of the spectrum bar, px. */
 const BAR_TOP = 62;
@@ -177,8 +177,11 @@ export class EMSpectrumScreenView extends ScreenView {
           strings.notToScaleStringProperty,
           strings.sameScaleStringProperty,
           model.compareProperty,
+          model.photon1.wavelengthProperty,
+          model.photon2.wavelengthProperty,
         ],
-        (caption, notToScale, sameScale, compare) => `${caption} (${compare ? sameScale : notToScale})`,
+        (caption, notToScale, sameScale, compare, wavelength1, wavelength2) =>
+          `${caption} (${compare && canDrawWavesToScale(wavelength1, wavelength2) ? sameScale : notToScale})`,
       ),
       {
         font: new PhetFont(FONT_SIZE.small),

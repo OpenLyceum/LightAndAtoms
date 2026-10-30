@@ -60,6 +60,12 @@ export function sharedScreenWavelengths(wavelength1: number, wavelength2: number
   return [Math.max(MIN_DRAWN_WAVELENGTH, wavelength1 * scale), Math.max(MIN_DRAWN_WAVELENGTH, wavelength2 * scale)];
 }
 
+/** Whether both wavelengths fit the shared scale without clamping the shorter wave. */
+export function canDrawWavesToScale(wavelength1: number, wavelength2: number): boolean {
+  const scale = SHARED_SCALE_LONGER_WAVELENGTH / Math.max(wavelength1, wavelength2);
+  return Math.min(wavelength1, wavelength2) * scale >= MIN_DRAWN_WAVELENGTH;
+}
+
 export class WaveNode extends Node {
   private readonly wavePath: Path;
   private readonly boxWidth: number;
