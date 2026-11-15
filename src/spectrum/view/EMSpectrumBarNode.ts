@@ -28,11 +28,11 @@ import {
 import { EM_REGIONS, type EMRegionId } from "../model/EMRegion.js";
 
 /** Bar size, px. */
-export const BAR_WIDTH = 884;
+const BAR_WIDTH = 884;
 export const BAR_HEIGHT = 48;
 
 /** Magnified visible strip: size and its top relative to the bar's top, px. */
-export const ZOOM_WIDTH = 420;
+const ZOOM_WIDTH = 420;
 export const ZOOM_HEIGHT = 26;
 export const ZOOM_TOP = 122;
 

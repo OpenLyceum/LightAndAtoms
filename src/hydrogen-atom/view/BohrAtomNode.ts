@@ -33,7 +33,7 @@ const OUTER_ORBIT_RADIUS = 142;
 const GROUND_ANGULAR_SPEED = 5;
 
 /** Orbit radius of level n, px. */
-export function orbitRadius(n: number): number {
+function orbitRadius(n: number): number {
   return (OUTER_ORBIT_RADIUS * n * n) / (MAX_LEVEL * MAX_LEVEL);
 }
 
