@@ -20,7 +20,10 @@ export function wavelengthToFrequency(wavelength: number): number {
   return SPEED_OF_LIGHT / wavelength;
 }
 
-/** Wavelength λ = c / ν, m, of light of frequency ν (Hz). */
+/**
+ * Wavelength λ = c / ν, m, of light of frequency ν (Hz).
+ * @internal Exported for unit tests; not part of the application API.
+ */
 export function frequencyToWavelength(frequency: number): number {
   return SPEED_OF_LIGHT / frequency;
 }

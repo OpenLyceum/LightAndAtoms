@@ -28,12 +28,18 @@ export function transitionWavelength(nInitial: number, nFinal: number): number {
   return energyToWavelength(Math.abs(transitionEnergy(nInitial, nFinal)));
 }
 
-/** The same wavelength from the Rydberg equation (it agrees with transitionWavelength), m. */
+/**
+ * The same wavelength from the Rydberg equation (it agrees with transitionWavelength), m.
+ * @internal Exported for unit tests; not part of the application API.
+ */
 export function rydbergWavelength(nLower: number, nUpper: number): number {
   return 1 / (RYDBERG_HYDROGEN * (1 / (nLower * nLower) - 1 / (nUpper * nUpper)));
 }
 
-/** Longest wavelength that ionises an electron in level n, m (the series limit). */
+/**
+ * Longest wavelength that ionises an electron in level n, m (the series limit).
+ * @internal Exported for unit tests; not part of the application API.
+ */
 export function ionizationWavelength(n: number): number {
   return energyToWavelength(-levelEnergy(n));
 }

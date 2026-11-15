@@ -17,7 +17,10 @@ function withMinus(text: string): string {
   return text.replace("-", MINUS);
 }
 
-/** Mantissa and exponent of `value` rounded to `sigFigs` significant figures. */
+/**
+ * Mantissa and exponent of `value` rounded to `sigFigs` significant figures.
+ * @internal Exported for unit tests; not part of the application API.
+ */
 export function toScientificParts(value: number, sigFigs: number): { mantissa: string; exponent: number } {
   if (value === 0 || !Number.isFinite(value)) {
     return { mantissa: toFixed(0, sigFigs - 1), exponent: 0 };

@@ -15,6 +15,7 @@ export type MysteryFeedback = "none" | "correct" | "incorrect";
 /**
  * Picks `count` distinct elements uniformly at random, avoiding the exact set `previous` so that
  * "New mystery tube" always changes something. `random` returns values in [0, 1).
+ * @internal Exported for unit tests; not part of the application API.
  */
 export function pickMystery(
   elements: readonly ElementSpectrum[],

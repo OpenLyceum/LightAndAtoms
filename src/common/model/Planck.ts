@@ -19,7 +19,10 @@ export function planckRadiance(wavelength: number, temperature: number): number 
   return (2 * PLANCK_CONSTANT * SPEED_OF_LIGHT * SPEED_OF_LIGHT) / wavelength ** 5 / Math.expm1(exponent);
 }
 
-/** Peak wavelength of a blackbody at temperature T (K), m. */
+/**
+ * Peak wavelength of a blackbody at temperature T (K), m.
+ * @internal Exported for unit tests; not part of the application API.
+ */
 export function wienPeakWavelength(temperature: number): number {
   return WIEN_CONSTANT / temperature;
 }
