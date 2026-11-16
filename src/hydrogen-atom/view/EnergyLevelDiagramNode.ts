@@ -169,7 +169,7 @@ export class EnergyLevelDiagramNode extends Node {
     // Occupied level and electron dot.
     const electron = new Circle(ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS.ELECTRON_RADIUS, {
       fill: LightAndAtomsColors.electronColorProperty,
-      stroke: "white",
+      stroke: LightAndAtomsColors.electronOutlineColorProperty,
       lineWidth: ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS.ELECTRON_LINE_WIDTH,
     });
     this.addChild(electron);

@@ -1,3 +1,4 @@
+import LightAndAtomsColors from "../../LightAndAtomsColors.js";
 import { SPECTRUM_MARKER_NODE_SETTINGS } from "../../LightAndAtomsConstants.js";
 /**
  * SpectrumMarkerNode.ts
@@ -93,12 +94,16 @@ export class SpectrumMarkerNode extends AccessibleSliderNode {
         fill: "rgba(0,0,0,0.01)",
       }),
       new Line(0, 0, 0, h, {
-        stroke: "black",
+        stroke: LightAndAtomsColors.spectrumMarkerOutlineColorProperty,
         lineWidth: SPECTRUM_MARKER_NODE_SETTINGS.CHILDREN_LINE_WIDTH,
         opacity: SPECTRUM_MARKER_NODE_SETTINGS.CHILDREN_OPACITY,
       }),
       new Line(0, 0, 0, h, { stroke: options.color, lineWidth: SPECTRUM_MARKER_NODE_SETTINGS.ITEM_3_LINE_WIDTH }),
-      new Path(handleShape, { fill: options.color, stroke: "black", lineWidth: 1 }),
+      new Path(handleShape, {
+        fill: options.color,
+        stroke: LightAndAtomsColors.spectrumMarkerOutlineColorProperty,
+        lineWidth: 1,
+      }),
     ];
 
     const dragListener = new DragListener({
