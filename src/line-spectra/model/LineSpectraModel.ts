@@ -1,3 +1,4 @@
+import { LINE_SPECTRA_MODEL_SETTINGS } from "../../LightAndAtomsConstants.js";
 /**
  * LineSpectraModel.ts
  *
@@ -35,7 +36,7 @@ import { MysteryTube } from "./MysteryTube.js";
 import { SourceType } from "./SourceType.js";
 
 /** Initial cursor wavelength, nm (the sodium D lines). */
-const INITIAL_CURSOR_NM = 589;
+const INITIAL_CURSOR_NM: number = LINE_SPECTRA_MODEL_SETTINGS.INITIAL_CURSOR_NM;
 
 const firstOf = (elements: readonly ElementSpectrum[]): ElementSpectrum => {
   const first = elements[0];

@@ -1,3 +1,4 @@
+import { LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS } from "../LightAndAtomsConstants.js";
 /**
  * LightAndAtomsScreenIcons.ts
  *
@@ -33,7 +34,7 @@ function iconFrom(content: Node): ScreenIcon {
 /** A rainbow gradient from 380 to 750 nm across [x0, x1]. */
 function rainbow(x0: number, x1: number): LinearGradient {
   const gradient = new LinearGradient(x0, 0, x1, 0);
-  const stops = 20;
+  const stops: number = LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.STOPS;
   for (let i = 0; i <= stops; i++) {
     gradient.addColorStop(i / stops, VisibleColor.wavelengthToColor(380 + (370 * i) / stops));
   }
@@ -41,16 +42,25 @@ function rainbow(x0: number, x1: number): LinearGradient {
 }
 
 export function createEMSpectrumIcon(): ScreenIcon {
-  const bandTop = 200;
-  const bandHeight = 90;
+  const bandTop: number = LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.BAND_TOP;
+  const bandHeight: number = LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.BAND_HEIGHT;
   const bands = [
-    { width: 80, fill: LightAndAtomsColors.gammaRegionColorProperty },
-    { width: 80, fill: LightAndAtomsColors.xRayRegionColorProperty },
-    { width: 70, fill: LightAndAtomsColors.ultravioletRegionColorProperty },
-    { width: 60, fill: null },
-    { width: 80, fill: LightAndAtomsColors.infraredRegionColorProperty },
-    { width: 70, fill: LightAndAtomsColors.microwaveRegionColorProperty },
-    { width: 68, fill: LightAndAtomsColors.radioRegionColorProperty },
+    { width: LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.BANDS_WIDTH, fill: LightAndAtomsColors.gammaRegionColorProperty },
+    { width: LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.BANDS_WIDTH, fill: LightAndAtomsColors.xRayRegionColorProperty },
+    {
+      width: LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.BANDS_ITEM_3_WIDTH,
+      fill: LightAndAtomsColors.ultravioletRegionColorProperty,
+    },
+    { width: LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.BANDS_ITEM_4_WIDTH, fill: null },
+    { width: LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.BANDS_WIDTH, fill: LightAndAtomsColors.infraredRegionColorProperty },
+    {
+      width: LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.BANDS_ITEM_6_WIDTH,
+      fill: LightAndAtomsColors.microwaveRegionColorProperty,
+    },
+    {
+      width: LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.BANDS_ITEM_7_WIDTH,
+      fill: LightAndAtomsColors.radioRegionColorProperty,
+    },
   ];
   const children: Node[] = [background()];
   let x = 30;
@@ -71,7 +81,12 @@ export function createEMSpectrumIcon(): ScreenIcon {
       wave.lineTo(px, y);
     }
   }
-  children.push(new Path(wave, { stroke: LightAndAtomsColors.photon1ColorProperty, lineWidth: 6 }));
+  children.push(
+    new Path(wave, {
+      stroke: LightAndAtomsColors.photon1ColorProperty,
+      lineWidth: LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.CREATE_EM_SPECTRUM_ICON_LINE_WIDTH,
+    }),
+  );
   return iconFrom(new Node({ children }));
 }
 
@@ -85,34 +100,45 @@ export function createHydrogenAtomIcon(): ScreenIcon {
         x: cx,
         y: cy,
         stroke: LightAndAtomsColors.orbitColorProperty,
-        lineWidth: 4,
-        lineDash: n === 1 ? [] : [10, 8],
+        lineWidth: LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.CREATE_HYDROGEN_ATOM_ICON_LINE_WIDTH,
+        lineDash: n === 1 ? [] : [LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.CREATE_HYDROGEN_ATOM_ICON_LINE_DASH_DASH, 8],
       }),
     );
   }
-  children.push(new Circle(14, { x: cx, y: cy, fill: LightAndAtomsColors.nucleusColorProperty }));
   children.push(
-    new Circle(16, {
-      x: cx + 72 * Math.cos(-0.5),
-      y: cy + 72 * Math.sin(-0.5),
+    new Circle(LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.CREATE_HYDROGEN_ATOM_ICON_RADIUS, {
+      x: cx,
+      y: cy,
+      fill: LightAndAtomsColors.nucleusColorProperty,
+    }),
+  );
+  children.push(
+    new Circle(LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.CREATE_HYDROGEN_ATOM_ICON_RADIUS_SEGMENT_2, {
+      x: cx + LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.CREATE_HYDROGEN_ATOM_ICON_X_FACTOR * Math.cos(-0.5),
+      y: cy + LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.CREATE_HYDROGEN_ATOM_ICON_Y_FACTOR * Math.sin(-0.5),
       fill: LightAndAtomsColors.electronColorProperty,
     }),
   );
 
   // An Hα photon leaving to the right.
-  const photon = new Shape().moveTo(330, cy - 40);
+  const photon = new Shape().moveTo(LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.PHOTON_X, cy - 40);
   for (let px = 330; px <= 480; px += 2) {
     const envelope = Math.exp(-(((px - 405) / 45) ** 2));
     photon.lineTo(px, cy - 40 - 30 * envelope * Math.sin((2 * Math.PI * (px - 330)) / 30));
   }
   const red = VisibleColor.wavelengthToColor(656);
-  children.push(new Path(photon, { stroke: red, lineWidth: 7 }));
+  children.push(
+    new Path(photon, {
+      stroke: red,
+      lineWidth: LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.CREATE_HYDROGEN_ATOM_ICON_LINE_WIDTH_VARIANT_2,
+    }),
+  );
   children.push(
     new Path(
       new Shape()
-        .moveTo(510, cy - 40)
-        .lineTo(480, cy - 58)
-        .lineTo(480, cy - 22)
+        .moveTo(LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.CREATE_HYDROGEN_ATOM_ICON_X, cy - 40)
+        .lineTo(LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.CREATE_HYDROGEN_ATOM_ICON_X_SEGMENT_2, cy - 58)
+        .lineTo(LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.CREATE_HYDROGEN_ATOM_ICON_X_SEGMENT_2, cy - 22)
         .close(),
       { fill: red },
     ),
@@ -121,18 +147,46 @@ export function createHydrogenAtomIcon(): ScreenIcon {
 }
 
 export function createLineSpectraIcon(): ScreenIcon {
-  const stripLeft = 40;
+  const stripLeft: number = LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.STRIP_LEFT;
   const stripWidth = W - 80;
   const children: Node[] = [
     background(),
-    new Rectangle(stripLeft, 70, stripWidth, 90, { fill: rainbow(stripLeft, stripLeft + stripWidth) }),
-    new Rectangle(stripLeft, 200, stripWidth, 110, { fill: LightAndAtomsColors.spectrumStripColorProperty }),
+    new Rectangle(
+      stripLeft,
+      LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.CHILDREN_Y,
+      stripWidth,
+      LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.CHILDREN_HEIGHT,
+      { fill: rainbow(stripLeft, stripLeft + stripWidth) },
+    ),
+    new Rectangle(
+      stripLeft,
+      LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.CHILDREN_Y_SEGMENT_2,
+      stripWidth,
+      LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.CHILDREN_HEIGHT_SEGMENT_2,
+      { fill: LightAndAtomsColors.spectrumStripColorProperty },
+    ),
   ];
   // Hydrogen's Balmer lines: bright in emission (bottom), and as dark gaps in the rainbow (top).
   for (const nm of [410, 434, 486, 656]) {
     const x = stripLeft + ((nm - 380) / 370) * stripWidth;
-    children.push(new Rectangle(x - 4, 200, 8, 110, { fill: VisibleColor.wavelengthToColor(nm) }));
-    children.push(new Rectangle(x - 3, 70, 6, 90, { fill: "black" }));
+    children.push(
+      new Rectangle(
+        x - 4,
+        LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.CREATE_LINE_SPECTRA_ICON_Y,
+        LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.CREATE_LINE_SPECTRA_ICON_WIDTH,
+        LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.CREATE_LINE_SPECTRA_ICON_HEIGHT,
+        { fill: VisibleColor.wavelengthToColor(nm) },
+      ),
+    );
+    children.push(
+      new Rectangle(
+        x - 3,
+        LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.CREATE_LINE_SPECTRA_ICON_Y_SEGMENT_2,
+        LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.CREATE_LINE_SPECTRA_ICON_WIDTH_SEGMENT_2,
+        LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.CREATE_LINE_SPECTRA_ICON_HEIGHT_SEGMENT_2,
+        { fill: "black" },
+      ),
+    );
   }
   return iconFrom(new Node({ children }));
 }

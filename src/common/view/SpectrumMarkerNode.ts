@@ -1,3 +1,4 @@
+import { SPECTRUM_MARKER_NODE_SETTINGS } from "../../LightAndAtomsConstants.js";
 /**
  * SpectrumMarkerNode.ts
  *
@@ -18,10 +19,10 @@ import { DragListener, Line, Node, type NodeOptions, Path, Rectangle, type TPain
 import { AccessibleSlider, type AccessibleSliderOptions } from "scenerystack/sun";
 
 /** Handle triangle width and height, px. */
-const HANDLE_WIDTH = 14;
-const HANDLE_HEIGHT = 11;
+const HANDLE_WIDTH: number = SPECTRUM_MARKER_NODE_SETTINGS.HANDLE_WIDTH;
+const HANDLE_HEIGHT: number = SPECTRUM_MARKER_NODE_SETTINGS.HANDLE_HEIGHT;
 /** Half-width of the invisible pointer target around the line, px. */
-const HIT_HALF_WIDTH = 7;
+const HIT_HALF_WIDTH: number = SPECTRUM_MARKER_NODE_SETTINGS.HIT_HALF_WIDTH;
 
 type SelfOptions = {
   /** Height of the line, px (the marker's origin is the top of the line). */
@@ -91,8 +92,12 @@ export class SpectrumMarkerNode extends AccessibleSliderNode {
       new Rectangle(-HIT_HALF_WIDTH, -HANDLE_HEIGHT, 2 * HIT_HALF_WIDTH, h + 2 * HANDLE_HEIGHT, {
         fill: "rgba(0,0,0,0.01)",
       }),
-      new Line(0, 0, 0, h, { stroke: "black", lineWidth: 4, opacity: 0.6 }),
-      new Line(0, 0, 0, h, { stroke: options.color, lineWidth: 2 }),
+      new Line(0, 0, 0, h, {
+        stroke: "black",
+        lineWidth: SPECTRUM_MARKER_NODE_SETTINGS.CHILDREN_LINE_WIDTH,
+        opacity: SPECTRUM_MARKER_NODE_SETTINGS.CHILDREN_OPACITY,
+      }),
+      new Line(0, 0, 0, h, { stroke: options.color, lineWidth: SPECTRUM_MARKER_NODE_SETTINGS.ITEM_3_LINE_WIDTH }),
       new Path(handleShape, { fill: options.color, stroke: "black", lineWidth: 1 }),
     ];
 

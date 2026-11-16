@@ -1,3 +1,4 @@
+import { LINE_SPECTRA_SCREEN_VIEW_SETTINGS } from "../../LightAndAtomsConstants.js";
 /**
  * LineSpectraScreenView.ts
  *
@@ -44,14 +45,14 @@ import { MysteryPanel } from "./MysteryPanel.js";
 import { SourceIllustrationNode } from "./SourceIllustrationNode.js";
 
 /** Left edge and width shared by the strips and the chart, so wavelengths line up, px. */
-const SPECTRUM_LEFT = 340;
-const SPECTRUM_WIDTH = 600;
+const SPECTRUM_LEFT: number = LINE_SPECTRA_SCREEN_VIEW_SETTINGS.SPECTRUM_LEFT;
+const SPECTRUM_WIDTH: number = LINE_SPECTRA_SCREEN_VIEW_SETTINGS.SPECTRUM_WIDTH;
 /** Strip heights and the chart height, px. */
-const EYEPIECE_HEIGHT = 60;
-const SMALL_STRIP_HEIGHT = 28;
-const CHART_HEIGHT = 175;
+const EYEPIECE_HEIGHT: number = LINE_SPECTRA_SCREEN_VIEW_SETTINGS.EYEPIECE_HEIGHT;
+const SMALL_STRIP_HEIGHT: number = LINE_SPECTRA_SCREEN_VIEW_SETTINGS.SMALL_STRIP_HEIGHT;
+const CHART_HEIGHT: number = LINE_SPECTRA_SCREEN_VIEW_SETTINGS.CHART_HEIGHT;
 /** Width of the left control column's content, px. */
-const PANEL_WIDTH = 220;
+const PANEL_WIDTH: number = LINE_SPECTRA_SCREEN_VIEW_SETTINGS.PANEL_WIDTH;
 
 export type LineSpectraScreenViewOptions = ScreenViewOptions;
 
@@ -105,11 +106,11 @@ export class LineSpectraScreenView extends ScreenView {
       BULB_TEMPERATURE_RANGE,
       {
         ...LIGHT_AND_ATOMS_NUMBER_CONTROL_OPTIONS,
-        delta: 50,
+        delta: LINE_SPECTRA_SCREEN_VIEW_SETTINGS.TEMPERATURE_CONTROL_DELTA,
         titleNodeOptions: {
           fill: LightAndAtomsColors.textColorProperty,
           font: new PhetFont(FONT_SIZE.label),
-          maxWidth: PANEL_WIDTH - 80,
+          maxWidth: PANEL_WIDTH - LINE_SPECTRA_SCREEN_VIEW_SETTINGS.TEMPERATURE_CONTROL_MAX_WIDTH_OFFSET,
         },
         numberDisplayOptions: {
           decimalPlaces: 0,
@@ -120,9 +121,9 @@ export class LineSpectraScreenView extends ScreenView {
         },
         sliderOptions: {
           ...LIGHT_AND_ATOMS_NUMBER_CONTROL_OPTIONS.sliderOptions,
-          keyboardStep: 50,
-          shiftKeyboardStep: 10,
-          pageKeyboardStep: 500,
+          keyboardStep: LINE_SPECTRA_SCREEN_VIEW_SETTINGS.TEMPERATURE_CONTROL_KEYBOARD_STEP,
+          shiftKeyboardStep: LINE_SPECTRA_SCREEN_VIEW_SETTINGS.TEMPERATURE_CONTROL_SHIFT_KEYBOARD_STEP,
+          pageKeyboardStep: LINE_SPECTRA_SCREEN_VIEW_SETTINGS.TEMPERATURE_CONTROL_PAGE_KEYBOARD_STEP,
         },
         accessibleName: strings.temperatureStringProperty,
       },
@@ -155,7 +156,7 @@ export class LineSpectraScreenView extends ScreenView {
           comparisonCheckbox,
         ],
       }),
-      { minWidth: PANEL_WIDTH + 24 },
+      { minWidth: PANEL_WIDTH + LINE_SPECTRA_SCREEN_VIEW_SETTINGS.SOURCE_PANEL_MIN_WIDTH_OFFSET },
     );
     sourcePanel.left = SCREEN_VIEW_MARGIN;
     sourcePanel.top = SCREEN_VIEW_MARGIN;
@@ -165,7 +166,7 @@ export class LineSpectraScreenView extends ScreenView {
     mysteryPanel.visibleProperty = isSource(SourceType.MYSTERY);
     sourcePanel.localBoundsProperty.link(() => {
       mysteryPanel.left = SCREEN_VIEW_MARGIN;
-      mysteryPanel.top = sourcePanel.bottom + 10;
+      mysteryPanel.top = sourcePanel.bottom + LINE_SPECTRA_SCREEN_VIEW_SETTINGS.CONSTRUCTOR_TOP_OFFSET;
     });
     this.addChild(mysteryPanel);
 
@@ -228,11 +229,14 @@ export class LineSpectraScreenView extends ScreenView {
       referenceChoices,
       listParent,
       strings.referenceStringProperty,
-      140,
+      LINE_SPECTRA_SCREEN_VIEW_SETTINGS.REFERENCE_ELEMENT_COMBO_BOX_MAX_WIDTH,
     );
     const referenceRow = new HBox({
-      spacing: 8,
-      children: [label(strings.referenceStringProperty, 100), referenceCombo],
+      spacing: LINE_SPECTRA_SCREEN_VIEW_SETTINGS.REFERENCE_ROW_SPACING,
+      children: [
+        label(strings.referenceStringProperty, LINE_SPECTRA_SCREEN_VIEW_SETTINGS.REFERENCE_LABEL_MAX_WIDTH),
+        referenceCombo,
+      ],
     });
     const referenceStripTop = (): number =>
       (comparisonVisible.value ? comparisonStrip.bottom : eyepieceTop + EYEPIECE_HEIGHT) + 8;
@@ -250,7 +254,11 @@ export class LineSpectraScreenView extends ScreenView {
     // ── Chart ─────────────────────────────────────────────────────────────────
     const chart = new IntensityChartNode(model.spectrumProperty, SPECTRUM_WIDTH, CHART_HEIGHT);
     chart.x = SPECTRUM_LEFT;
-    chart.y = this.layoutBounds.maxY - SCREEN_VIEW_MARGIN - 36 - CHART_HEIGHT;
+    chart.y =
+      this.layoutBounds.maxY -
+      SCREEN_VIEW_MARGIN -
+      LINE_SPECTRA_SCREEN_VIEW_SETTINGS.CONSTRUCTOR_Y_OFFSET -
+      CHART_HEIGHT;
 
     this.addChild(eyepieceTitle);
     this.addChild(eyepiece);
@@ -282,7 +290,7 @@ export class LineSpectraScreenView extends ScreenView {
       accessibleName: a11y.cursorStringProperty,
       accessibleHelpText: a11y.cursorHelpStringProperty,
     });
-    cursor.opacity = 0.85;
+    cursor.opacity = LINE_SPECTRA_SCREEN_VIEW_SETTINGS.OPACITY_OPACITY;
     cursorLayer.addChild(cursor);
     this.addChild(cursorLayer);
 
@@ -293,7 +301,7 @@ export class LineSpectraScreenView extends ScreenView {
     Multilink.multilink([model.cursorWavelengthProperty, strings.cursorReadoutStringProperty], (nm, pattern) => {
       cursorReadout.string = StringUtils.fillIn(pattern, { value: toFixed(nm, 1) });
       cursorReadout.right = SPECTRUM_LEFT + SPECTRUM_WIDTH;
-      cursorReadout.bottom = chart.y - 4;
+      cursorReadout.bottom = chart.y - LINE_SPECTRA_SCREEN_VIEW_SETTINGS.CONSTRUCTOR_BOTTOM_OFFSET;
     });
     this.addChild(cursorReadout);
 

@@ -1,3 +1,4 @@
+import { MYSTERY_PANEL_SETTINGS } from "../../LightAndAtomsConstants.js";
 /**
  * MysteryPanel.ts
  *
@@ -44,8 +45,8 @@ export class MysteryPanel extends LightAndAtomsPanel {
       return checkbox(property, elementNameProperty(element.id), width / 2 - 26);
     });
     const grid = new GridBox({
-      xSpacing: 10,
-      ySpacing: 5,
+      xSpacing: MYSTERY_PANEL_SETTINGS.GRID_X_SPACING,
+      ySpacing: MYSTERY_PANEL_SETTINGS.GRID_Y_SPACING,
       xAlign: "left",
       autoColumns: 2,
       children: guessCheckboxes,
@@ -87,7 +88,11 @@ export class MysteryPanel extends LightAndAtomsPanel {
           question,
           checkbox(mystery.twoGasesProperty, strings.twoGasesStringProperty, width - 24),
           grid,
-          new VBox({ align: "left", spacing: 6, children: [checkButton, newButton] }),
+          new VBox({
+            align: "left",
+            spacing: MYSTERY_PANEL_SETTINGS.CONSTRUCTOR_SPACING,
+            children: [checkButton, newButton],
+          }),
           feedback,
           score,
         ],

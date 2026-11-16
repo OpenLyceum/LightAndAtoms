@@ -1,3 +1,4 @@
+import { ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS } from "../../LightAndAtomsConstants.js";
 /**
  * EnergyLevelDiagramNode.ts
  *
@@ -26,13 +27,13 @@ import { EnergyUnit } from "../model/EnergyUnit.js";
 import type { HydrogenAtomModel } from "../model/HydrogenAtomModel.js";
 
 /** Width of a level line, px. */
-const LEVEL_WIDTH = 120;
+const LEVEL_WIDTH: number = ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS.LEVEL_WIDTH;
 /** Minimum vertical spacing between labels, px. */
-const LABEL_SPACING = 15;
+const LABEL_SPACING: number = ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS.LABEL_SPACING;
 /** Horizontal offset of a fanned label from the line end, px. */
-const LABEL_GAP = 6;
+const LABEL_GAP: number = ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS.LABEL_GAP;
 /** Pointer target height around each level, px. */
-const HIT_HEIGHT = 8;
+const HIT_HEIGHT: number = ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS.HIT_HEIGHT;
 
 const LABEL_FONT = new PhetFont(FONT_SIZE.small);
 const VALUE_FONT = new PhetFont(FONT_SIZE.small);
@@ -63,8 +64,8 @@ export class EnergyLevelDiagramNode extends Node {
     const axisX = -18;
     this.addChild(
       new ArrowNode(axisX, height + 6, axisX, Math.min(-10, infinityLabelY - 10), {
-        headHeight: 8,
-        headWidth: 8,
+        headHeight: ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS.CONSTRUCTOR_HEAD_HEIGHT,
+        headWidth: ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS.CONSTRUCTOR_HEAD_WIDTH,
         tailWidth: 1,
         fill: LightAndAtomsColors.mutedTextColorProperty,
         stroke: null,
@@ -77,14 +78,17 @@ export class EnergyLevelDiagramNode extends Node {
       maxWidth: height,
     });
     axisTitle.boundsProperty.link(() => {
-      axisTitle.right = axisX - 4;
+      axisTitle.right = axisX - ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS.CONSTRUCTOR_RIGHT_OFFSET;
       axisTitle.centerY = height / 2;
     });
     this.addChild(axisTitle);
 
     // n = ∞ (ionisation) line.
     this.addChild(
-      new Line(0, 0, LEVEL_WIDTH, 0, { stroke: LightAndAtomsColors.energyLevelColorProperty, lineDash: [4, 3] }),
+      new Line(0, 0, LEVEL_WIDTH, 0, {
+        stroke: LightAndAtomsColors.energyLevelColorProperty,
+        lineDash: [ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS.CONSTRUCTOR_LINE_DASH_DASH, 3],
+      }),
     );
     this.addChild(
       new Text(strings.ionizationLevelStringProperty, {
@@ -92,7 +96,7 @@ export class EnergyLevelDiagramNode extends Node {
         fill: LightAndAtomsColors.textColorProperty,
         left: LEVEL_WIDTH + LABEL_GAP,
         centerY: infinityLabelY,
-        maxWidth: 150,
+        maxWidth: ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS.CONSTRUCTOR_MAX_WIDTH,
       }),
     );
 
@@ -104,7 +108,7 @@ export class EnergyLevelDiagramNode extends Node {
       const ly = labelY[n] ?? y;
       const line = new Line(0, y, LEVEL_WIDTH, y, {
         stroke: LightAndAtomsColors.energyLevelColorProperty,
-        lineWidth: 2,
+        lineWidth: ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS.LINE_LINE_WIDTH,
       });
       levelLines.push(line);
       this.addChild(line);
@@ -112,11 +116,15 @@ export class EnergyLevelDiagramNode extends Node {
         this.addChild(
           new Path(new Shape().moveTo(LEVEL_WIDTH, y).lineTo(LEVEL_WIDTH + LABEL_GAP - 1, ly), {
             stroke: LightAndAtomsColors.mutedTextColorProperty,
-            lineWidth: 0.5,
+            lineWidth: ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS.CONSTRUCTOR_LINE_WIDTH,
           }),
         );
       }
-      const nLabel = new Text("", { font: LABEL_FONT, fill: LightAndAtomsColors.textColorProperty, maxWidth: 50 });
+      const nLabel = new Text("", {
+        font: LABEL_FONT,
+        fill: LightAndAtomsColors.textColorProperty,
+        maxWidth: ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS.N_LABEL_MAX_WIDTH,
+      });
       strings.levelLabelStringProperty.link((pattern) => {
         nLabel.string = StringUtils.fillIn(pattern, { n });
         nLabel.left = LEVEL_WIDTH + LABEL_GAP;
@@ -126,9 +134,9 @@ export class EnergyLevelDiagramNode extends Node {
       const valueText = new RichText("", {
         font: VALUE_FONT,
         fill: LightAndAtomsColors.mutedTextColorProperty,
-        maxWidth: 120,
+        maxWidth: ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS.VALUE_TEXT_MAX_WIDTH,
       });
-      valueText.left = LEVEL_WIDTH + LABEL_GAP + 48;
+      valueText.left = LEVEL_WIDTH + LABEL_GAP + ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS.CONSTRUCTOR_LEFT_OFFSET;
       valueText.centerY = ly;
       valueTexts.push(valueText);
       this.addChild(valueText);
@@ -153,16 +161,16 @@ export class EnergyLevelDiagramNode extends Node {
             unit === EnergyUnit.JOULES
               ? `${toScientificMarkup(energy)} ${joules}`
               : `${toSignificantFigures(joulesToElectronvolts(energy), 3)} ${electronvolts}`;
-          text.left = LEVEL_WIDTH + LABEL_GAP + 48;
+          text.left = LEVEL_WIDTH + LABEL_GAP + ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS.CONSTRUCTOR_LEFT_OFFSET;
         });
       },
     );
 
     // Occupied level and electron dot.
-    const electron = new Circle(5, {
+    const electron = new Circle(ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS.ELECTRON_RADIUS, {
       fill: LightAndAtomsColors.electronColorProperty,
       stroke: "white",
-      lineWidth: 0.5,
+      lineWidth: ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS.ELECTRON_LINE_WIDTH,
     });
     this.addChild(electron);
     Multilink.multilink([model.levelProperty, model.ionizedProperty], (level, ionized) => {
@@ -198,9 +206,9 @@ export class EnergyLevelDiagramNode extends Node {
           new ArrowNode(LEVEL_WIDTH / 4, levelY(transition.from), LEVEL_WIDTH / 4, levelY(transition.to), {
             fill: color,
             stroke: null,
-            headHeight: 7,
-            headWidth: 9,
-            tailWidth: 3,
+            headHeight: ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS.HEAD_HEIGHT,
+            headWidth: ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS.HEAD_WIDTH,
+            tailWidth: ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS.CONSTRUCTOR_TAIL_WIDTH,
           }),
         );
       }

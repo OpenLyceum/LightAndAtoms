@@ -1,3 +1,4 @@
+import { PLANCK_SETTINGS } from "../../LightAndAtomsConstants.js";
 /**
  * Planck.ts
  *
@@ -11,7 +12,7 @@
 import { BOLTZMANN_CONSTANT, PLANCK_CONSTANT, SPEED_OF_LIGHT } from "../../LightAndAtomsConstants.js";
 
 /** Wien displacement constant b, m·K (CODATA 2018). */
-const WIEN_CONSTANT = 2.897771955e-3;
+const WIEN_CONSTANT: number = PLANCK_SETTINGS.WIEN_CONSTANT;
 
 /** Spectral radiance per unit wavelength, W·sr⁻¹·m⁻³, at wavelength λ (m) and temperature T (K). */
 export function planckRadiance(wavelength: number, temperature: number): number {

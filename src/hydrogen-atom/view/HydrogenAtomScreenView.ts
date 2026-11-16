@@ -1,3 +1,4 @@
+import { HYDROGEN_ATOM_SCREEN_VIEW_SETTINGS } from "../../LightAndAtomsConstants.js";
 /**
  * HydrogenAtomScreenView.ts
  *
@@ -55,9 +56,9 @@ import { createHydrogenEquationLines } from "./HydrogenEquations.js";
 import { HydrogenSpectrumNode } from "./HydrogenSpectrumNode.js";
 
 /** Height of the energy diagram from E₁ to 0, px. */
-const DIAGRAM_HEIGHT = 250;
+const DIAGRAM_HEIGHT: number = HYDROGEN_ATOM_SCREEN_VIEW_SETTINGS.DIAGRAM_HEIGHT;
 /** Width available to control-panel content, px. */
-const PANEL_WIDTH = 230;
+const PANEL_WIDTH: number = HYDROGEN_ATOM_SCREEN_VIEW_SETTINGS.PANEL_WIDTH;
 
 export type HydrogenAtomScreenViewOptions = ScreenViewOptions;
 
@@ -82,15 +83,19 @@ export class HydrogenAtomScreenView extends ScreenView {
     this.addChild(this.atomNode);
 
     const diagram = new EnergyLevelDiagramNode(model, DIAGRAM_HEIGHT);
-    diagram.x = this.atomNode.x + ATOM_VIEW_HALF_WIDTH + 56;
-    diagram.y = this.atomNode.y + ATOM_VIEW_HALF_HEIGHT - DIAGRAM_HEIGHT - 12;
+    diagram.x = this.atomNode.x + ATOM_VIEW_HALF_WIDTH + HYDROGEN_ATOM_SCREEN_VIEW_SETTINGS.CONSTRUCTOR_X_OFFSET;
+    diagram.y =
+      this.atomNode.y +
+      ATOM_VIEW_HALF_HEIGHT -
+      DIAGRAM_HEIGHT -
+      HYDROGEN_ATOM_SCREEN_VIEW_SETTINGS.CONSTRUCTOR_Y_OFFSET;
     this.addChild(diagram);
 
     // ── Spectrum ──────────────────────────────────────────────────────────────
     const clearButton = pushButton(common.clearStringProperty, () => model.clearSpectrum());
     const spectrum = new HydrogenSpectrumNode(model, clearButton);
     spectrum.left = SCREEN_VIEW_MARGIN;
-    spectrum.top = this.atomNode.y + ATOM_VIEW_HALF_HEIGHT + 8;
+    spectrum.top = this.atomNode.y + ATOM_VIEW_HALF_HEIGHT + HYDROGEN_ATOM_SCREEN_VIEW_SETTINGS.CONSTRUCTOR_TOP_OFFSET;
     this.addChild(spectrum);
 
     // ── Controls ──────────────────────────────────────────────────────────────
@@ -111,8 +116,8 @@ export class HydrogenAtomScreenView extends ScreenView {
         ...FLAT_PANEL_PUSH_BUTTON_OPTIONS,
         font: new PhetFont(FONT_SIZE.label),
         textFill: LIGHT_SURFACE_TEXT_FILL,
-        xMargin: 9,
-        yMargin: 4,
+        xMargin: HYDROGEN_ATOM_SCREEN_VIEW_SETTINGS.LEVEL_BUTTONS_X_MARGIN,
+        yMargin: HYDROGEN_ATOM_SCREEN_VIEW_SETTINGS.LEVEL_BUTTONS_Y_MARGIN,
         listener: () => model.moveElectronTo(n),
         enabledProperty: new DerivedProperty(
           [model.levelProperty, model.ionizedProperty, model.modeProperty],
@@ -142,7 +147,7 @@ export class HydrogenAtomScreenView extends ScreenView {
         },
       ],
       strings.energyUnitsStringProperty,
-      60,
+      HYDROGEN_ATOM_SCREEN_VIEW_SETTINGS.ENERGY_UNIT_RADIO_GROUP_MAX_WIDTH,
       "horizontal",
     );
     const autoRelaxCheckbox = checkbox(model.autoRelaxProperty, strings.autoRelaxStringProperty, PANEL_WIDTH - 24);
@@ -160,11 +165,17 @@ export class HydrogenAtomScreenView extends ScreenView {
           heading(strings.modeStringProperty, PANEL_WIDTH),
           modeRadio,
           label(strings.moveElectronStringProperty, PANEL_WIDTH),
-          new HBox({ spacing: 4, children: levelButtons }),
+          new HBox({ spacing: HYDROGEN_ATOM_SCREEN_VIEW_SETTINGS.CONTROL_PANEL_SPACING, children: levelButtons }),
           absorptionHint,
           recaptureButton,
           autoRelaxCheckbox,
-          new HBox({ spacing: 8, children: [label(strings.energyUnitsStringProperty, 110), unitRadio] }),
+          new HBox({
+            spacing: HYDROGEN_ATOM_SCREEN_VIEW_SETTINGS.CONTROL_PANEL_ITEM_8_SPACING,
+            children: [
+              label(strings.energyUnitsStringProperty, HYDROGEN_ATOM_SCREEN_VIEW_SETTINGS.ENERGY_UNITS_LABEL_MAX_WIDTH),
+              unitRadio,
+            ],
+          }),
           equationsCheckbox,
         ],
       }),
@@ -183,7 +194,7 @@ export class HydrogenAtomScreenView extends ScreenView {
         { value: PhotonRegion.INFRARED, label: common.infraredStringProperty },
       ],
       strings.lampRegionStringProperty,
-      70,
+      HYDROGEN_ATOM_SCREEN_VIEW_SETTINGS.PHOTON_REGION_RADIO_GROUP_MAX_WIDTH,
       "horizontal",
     );
     const wavelengthControls = [
@@ -198,7 +209,7 @@ export class HydrogenAtomScreenView extends ScreenView {
           titleNodeOptions: {
             fill: LightAndAtomsColors.textColorProperty,
             font: new PhetFont(FONT_SIZE.label),
-            maxWidth: 110,
+            maxWidth: HYDROGEN_ATOM_SCREEN_VIEW_SETTINGS.WAVELENGTH_CONTROLS_MAX_WIDTH,
           },
           numberDisplayOptions: {
             decimalPlaces: 1,
@@ -208,7 +219,7 @@ export class HydrogenAtomScreenView extends ScreenView {
             ...LIGHT_AND_ATOMS_NUMBER_CONTROL_OPTIONS.sliderOptions,
             keyboardStep: 1,
             shiftKeyboardStep: PHOTON_WAVELENGTH_DELTA_NM,
-            pageKeyboardStep: 10,
+            pageKeyboardStep: HYDROGEN_ATOM_SCREEN_VIEW_SETTINGS.WAVELENGTH_CONTROLS_PAGE_KEYBOARD_STEP,
           },
           accessibleName: a11y.lampWavelengthStringProperty,
           visibleProperty: new DerivedProperty([model.photonRegionProperty], (active) => active === region),
@@ -226,7 +237,10 @@ export class HydrogenAtomScreenView extends ScreenView {
           heading(strings.lampStringProperty, PANEL_WIDTH),
           regionRadio,
           new Node({ children: wavelengthControls }),
-          new HBox({ spacing: 10, children: [fireButton, lampOnCheckbox] }),
+          new HBox({
+            spacing: HYDROGEN_ATOM_SCREEN_VIEW_SETTINGS.LAMP_PANEL_SPACING,
+            children: [fireButton, lampOnCheckbox],
+          }),
         ],
       }),
       {
@@ -249,7 +263,7 @@ export class HydrogenAtomScreenView extends ScreenView {
     const equationsPanel = new EquationsPanel(createHydrogenEquationLines(model), model.showEquationsProperty, 640);
     equationsPanel.localBoundsProperty.link(() => {
       equationsPanel.left = SCREEN_VIEW_MARGIN;
-      equationsPanel.top = spectrum.bottom + 8;
+      equationsPanel.top = spectrum.bottom + HYDROGEN_ATOM_SCREEN_VIEW_SETTINGS.CONSTRUCTOR_TOP_OFFSET;
     });
     this.addChild(equationsPanel);
 

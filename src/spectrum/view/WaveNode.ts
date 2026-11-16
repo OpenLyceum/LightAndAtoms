@@ -1,3 +1,4 @@
+import { WAVE_NODE_SETTINGS } from "../../LightAndAtomsConstants.js";
 /**
  * WaveNode.ts
  *
@@ -23,22 +24,22 @@ import { FONT_SIZE, LOG_WAVELENGTH_RANGE } from "../../LightAndAtomsConstants.js
 import type { PhotonState } from "../model/EMSpectrumModel.js";
 
 /** On-screen wavelength at the gamma and radio ends of the bar, px. */
-const MIN_SCREEN_WAVELENGTH = 9;
-const MAX_SCREEN_WAVELENGTH = 260;
+const MIN_SCREEN_WAVELENGTH: number = WAVE_NODE_SETTINGS.MIN_SCREEN_WAVELENGTH;
+const MAX_SCREEN_WAVELENGTH: number = WAVE_NODE_SETTINGS.MAX_SCREEN_WAVELENGTH;
 
 /** On-screen wavelength of the longer photon when two are drawn to the same scale, px. */
-const SHARED_SCALE_LONGER_WAVELENGTH = 200;
+const SHARED_SCALE_LONGER_WAVELENGTH: number = WAVE_NODE_SETTINGS.SHARED_SCALE_LONGER_WAVELENGTH;
 
 /** Shortest wavelength drawn, px; anything shorter would alias on the 1.5 px sampling. */
-const MIN_DRAWN_WAVELENGTH = 4;
+const MIN_DRAWN_WAVELENGTH: number = WAVE_NODE_SETTINGS.MIN_DRAWN_WAVELENGTH;
 
 /** On-screen speed of every wave, px/s. */
-const SCREEN_WAVE_SPEED = 70;
+const SCREEN_WAVE_SPEED: number = WAVE_NODE_SETTINGS.SCREEN_WAVE_SPEED;
 
 /** Horizontal sample spacing of the drawn curve, px. */
-const SAMPLE_SPACING = 1.5;
+const SAMPLE_SPACING: number = WAVE_NODE_SETTINGS.SAMPLE_SPACING;
 
-const PADDING = 8;
+const PADDING: number = WAVE_NODE_SETTINGS.PADDING;
 
 /** On-screen wavelength (px) of a lone wave: logarithmic in the real wavelength. */
 export function logScreenWavelength(logWavelength: number): number {
@@ -86,10 +87,13 @@ export class WaveNode extends Node {
     const box = new Rectangle(0, 0, width, height, {
       fill: LightAndAtomsColors.chartBackgroundColorProperty,
       stroke: markerColor,
-      lineWidth: 1.5,
-      cornerRadius: 4,
+      lineWidth: WAVE_NODE_SETTINGS.BOX_LINE_WIDTH,
+      cornerRadius: WAVE_NODE_SETTINGS.BOX_CORNER_RADIUS,
     });
-    this.wavePath = new Path(null, { lineWidth: 2.5, y: height / 2 + 9 });
+    this.wavePath = new Path(null, {
+      lineWidth: WAVE_NODE_SETTINGS.WAVE_PATH_LINE_WIDTH,
+      y: height / 2 + WAVE_NODE_SETTINGS.CONSTRUCTOR_Y_OFFSET,
+    });
     const caption = new RichText("", {
       font: new PhetFont(FONT_SIZE.small),
       fill: LightAndAtomsColors.textColorProperty,

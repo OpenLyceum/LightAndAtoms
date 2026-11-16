@@ -1,3 +1,4 @@
+import { HYDROGEN_ATOM_MODEL_SETTINGS } from "../../LightAndAtomsConstants.js";
 /**
  * HydrogenAtomModel.ts
  *
@@ -51,8 +52,8 @@ import { HydrogenMode } from "./HydrogenMode.js";
 import { PhotonRegion } from "./PhotonRegion.js";
 
 /** Half-width and half-height of the region photons travel in, px (matches the atom view). */
-export const ATOM_VIEW_HALF_WIDTH = 190;
-export const ATOM_VIEW_HALF_HEIGHT = 150;
+export const ATOM_VIEW_HALF_WIDTH: number = HYDROGEN_ATOM_MODEL_SETTINGS.ATOM_VIEW_HALF_WIDTH;
+export const ATOM_VIEW_HALF_HEIGHT: number = HYDROGEN_ATOM_MODEL_SETTINGS.ATOM_VIEW_HALF_HEIGHT;
 
 /** A photon in flight. */
 export type Photon = {

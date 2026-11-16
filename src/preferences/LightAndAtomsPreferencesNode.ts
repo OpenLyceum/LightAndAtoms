@@ -1,3 +1,4 @@
+import { LIGHT_AND_ATOMS_PREFERENCES_NODE_SETTINGS } from "../LightAndAtomsConstants.js";
 /**
  * LightAndAtomsPreferencesNode.ts
  *
@@ -23,27 +24,27 @@ export class LightAndAtomsPreferencesNode extends VBox {
     // colors (readable on white in both default and projector profiles), not textColorProperty
     // (which is near-white in default mode and would be invisible on the white dialog).
     const header = new Text(prefStrings.titleStringProperty, {
-      font: new PhetFont({ size: 18, weight: "bold" }),
+      font: new PhetFont({ size: LIGHT_AND_ATOMS_PREFERENCES_NODE_SETTINGS.HEADER_FONT_SIZE, weight: "bold" }),
       fill: LightAndAtomsColors.controlSurfaceTextColorProperty,
     });
 
     const inverseSecondsCheckbox = new Checkbox(
       preferencesModel.inverseSecondsProperty,
       new Text(prefStrings.inverseSecondsStringProperty, {
-        font: new PhetFont(14),
+        font: new PhetFont(LIGHT_AND_ATOMS_PREFERENCES_NODE_SETTINGS.INVERSE_SECONDS_CHECKBOX_FONT_SIZE),
         fill: LightAndAtomsColors.controlSurfaceTextColorProperty,
       }),
       {
         checkboxColor: LightAndAtomsColors.controlSurfaceTextColorProperty,
         checkboxColorBackground: LightAndAtomsColors.controlSurfaceColorProperty,
-        spacing: 8,
+        spacing: LIGHT_AND_ATOMS_PREFERENCES_NODE_SETTINGS.INVERSE_SECONDS_CHECKBOX_SPACING,
         ...(tandem && { tandem: tandem.createTandem("inverseSecondsCheckbox") }),
       },
     );
 
     super({
       align: "left",
-      spacing: 12,
+      spacing: LIGHT_AND_ATOMS_PREFERENCES_NODE_SETTINGS.CONSTRUCTOR_SPACING,
       children: [header, inverseSecondsCheckbox],
     });
   }

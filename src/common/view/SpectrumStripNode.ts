@@ -1,3 +1,4 @@
+import { SPECTRUM_STRIP_NODE_SETTINGS } from "../../LightAndAtomsConstants.js";
 /**
  * SpectrumStripNode.ts
  *
@@ -25,7 +26,7 @@ type SelfOptions = {
 export type SpectrumStripNodeOptions = SelfOptions & CanvasNodeOptions;
 
 /** Display gamma: VisibleColor values are already encoded, so scale them by brightness^(1/γ). */
-const DISPLAY_GAMMA = 2.2;
+const DISPLAY_GAMMA: number = SPECTRUM_STRIP_NODE_SETTINGS.DISPLAY_GAMMA;
 
 export class SpectrumStripNode extends CanvasNode {
   private readonly stripWidth: number;

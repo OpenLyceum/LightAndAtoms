@@ -1,3 +1,4 @@
+import { EM_SPECTRUM_BAR_NODE_SETTINGS } from "../../LightAndAtomsConstants.js";
 /**
  * EMSpectrumBarNode.ts
  *
@@ -28,21 +29,21 @@ import {
 import { EM_REGIONS, type EMRegionId } from "../model/EMRegion.js";
 
 /** Bar size, px. */
-const BAR_WIDTH = 884;
-export const BAR_HEIGHT = 48;
+const BAR_WIDTH: number = EM_SPECTRUM_BAR_NODE_SETTINGS.BAR_WIDTH;
+export const BAR_HEIGHT: number = EM_SPECTRUM_BAR_NODE_SETTINGS.BAR_HEIGHT;
 
 /** Magnified visible strip: size and its top relative to the bar's top, px. */
-const ZOOM_WIDTH = 420;
-export const ZOOM_HEIGHT = 26;
-export const ZOOM_TOP = 122;
+const ZOOM_WIDTH: number = EM_SPECTRUM_BAR_NODE_SETTINGS.ZOOM_WIDTH;
+export const ZOOM_HEIGHT: number = EM_SPECTRUM_BAR_NODE_SETTINGS.ZOOM_HEIGHT;
+export const ZOOM_TOP: number = EM_SPECTRUM_BAR_NODE_SETTINGS.ZOOM_TOP;
 
-const TICK_LENGTH = 6;
+const TICK_LENGTH: number = EM_SPECTRUM_BAR_NODE_SETTINGS.TICK_LENGTH;
 const TICK_FONT = new PhetFont(FONT_SIZE.tiny);
 const AXIS_TITLE_FONT = new PhetFont(FONT_SIZE.small);
 const REGION_FONT = new PhetFont({ size: FONT_SIZE.small, weight: "bold" });
 
 /** Number of gradient stops across the visible band of the bar. */
-const VISIBLE_GRADIENT_STOPS = 24;
+const VISIBLE_GRADIENT_STOPS: number = EM_SPECTRUM_BAR_NODE_SETTINGS.VISIBLE_GRADIENT_STOPS;
 
 const MINUS = "−";
 
@@ -96,7 +97,7 @@ export class EMSpectrumBarNode extends Node {
         const label = new Text(regionStrings[region.id], {
           font: REGION_FONT,
           fill: LightAndAtomsColors.textColorProperty,
-          maxWidth: width - 6,
+          maxWidth: width - EM_SPECTRUM_BAR_NODE_SETTINGS.LABEL_MAX_WIDTH_OFFSET,
         });
         label.boundsProperty.link(() => {
           label.center = this.bandCenter(left, width);
@@ -127,7 +128,7 @@ export class EMSpectrumBarNode extends Node {
     });
     wavelengthTitle.boundsProperty.link(() => {
       wavelengthTitle.centerX = BAR_WIDTH / 2;
-      wavelengthTitle.bottom = -TICK_LENGTH - 18;
+      wavelengthTitle.bottom = -TICK_LENGTH - EM_SPECTRUM_BAR_NODE_SETTINGS.CONSTRUCTOR_BOTTOM_OFFSET;
     });
     axisLayer.addChild(wavelengthTitle);
 
@@ -157,7 +158,7 @@ export class EMSpectrumBarNode extends Node {
     });
     frequencyTitle.boundsProperty.link(() => {
       frequencyTitle.centerX = BAR_WIDTH / 2;
-      frequencyTitle.top = BAR_HEIGHT + TICK_LENGTH + 18;
+      frequencyTitle.top = BAR_HEIGHT + TICK_LENGTH + EM_SPECTRUM_BAR_NODE_SETTINGS.CONSTRUCTOR_TOP_OFFSET;
     });
     axisLayer.addChild(frequencyTitle);
 
@@ -166,15 +167,22 @@ export class EMSpectrumBarNode extends Node {
       font: AXIS_TITLE_FONT,
       fill: LightAndAtomsColors.mutedTextColorProperty,
     });
-    const energyArrow = new Path(new Shape().moveTo(0, 0).lineTo(9, -5).lineTo(9, 5).close(), {
-      fill: LightAndAtomsColors.mutedTextColorProperty,
-    });
+    const energyArrow = new Path(
+      new Shape()
+        .moveTo(0, 0)
+        .lineTo(EM_SPECTRUM_BAR_NODE_SETTINGS.ENERGY_ARROW_X, EM_SPECTRUM_BAR_NODE_SETTINGS.ENERGY_ARROW_Y)
+        .lineTo(EM_SPECTRUM_BAR_NODE_SETTINGS.ENERGY_ARROW_X, EM_SPECTRUM_BAR_NODE_SETTINGS.ENERGY_ARROW_X_LINE_TO_Y)
+        .close(),
+      {
+        fill: LightAndAtomsColors.mutedTextColorProperty,
+      },
+    );
     const energyLabel = new Node({ children: [energyArrow, energyArrowText] });
     energyArrowText.boundsProperty.link(() => {
-      energyArrowText.left = energyArrow.right + 4;
+      energyArrowText.left = energyArrow.right + EM_SPECTRUM_BAR_NODE_SETTINGS.CONSTRUCTOR_LEFT_OFFSET;
       energyArrowText.centerY = energyArrow.centerY;
       energyLabel.left = 0;
-      energyLabel.top = BAR_HEIGHT + TICK_LENGTH + 18;
+      energyLabel.top = BAR_HEIGHT + TICK_LENGTH + EM_SPECTRUM_BAR_NODE_SETTINGS.CONSTRUCTOR_TOP_OFFSET;
     });
     axisLayer.addChild(energyLabel);
     this.addChild(axisLayer);
@@ -192,7 +200,13 @@ export class EMSpectrumBarNode extends Node {
           .lineTo(this.zoomLeft, ZOOM_TOP)
           .moveTo(visibleRight, BAR_HEIGHT)
           .lineTo(zoomRight, ZOOM_TOP),
-        { stroke: LightAndAtomsColors.mutedTextColorProperty, lineDash: [3, 3] },
+        {
+          stroke: LightAndAtomsColors.mutedTextColorProperty,
+          lineDash: [
+            EM_SPECTRUM_BAR_NODE_SETTINGS.CONSTRUCTOR_LINE_DASH_DASH,
+            EM_SPECTRUM_BAR_NODE_SETTINGS.CONSTRUCTOR_LINE_DASH_DASH,
+          ],
+        },
       ),
     );
     const zoomStrip = new SpectrumStripNode(new Property(flatSpectrum()), ZOOM_WIDTH, ZOOM_HEIGHT, {
@@ -228,18 +242,19 @@ export class EMSpectrumBarNode extends Node {
     const zoomTitle = new Text(strings.visibleZoomStringProperty, {
       font: AXIS_TITLE_FONT,
       fill: LightAndAtomsColors.textColorProperty,
-      maxWidth: 140,
+      maxWidth: EM_SPECTRUM_BAR_NODE_SETTINGS.ZOOM_TITLE_MAX_WIDTH,
     });
     const nmLabel = new Text(StringManager.getInstance().getCommonStrings().wavelengthNmStringProperty, {
       font: TICK_FONT,
       fill: LightAndAtomsColors.mutedTextColorProperty,
-      maxWidth: 140,
+      maxWidth: EM_SPECTRUM_BAR_NODE_SETTINGS.NM_LABEL_MAX_WIDTH,
     });
     Multilink.multilink([zoomTitle.boundsProperty, nmLabel.boundsProperty], () => {
-      zoomTitle.right = this.zoomLeft - 10;
+      zoomTitle.right = this.zoomLeft - EM_SPECTRUM_BAR_NODE_SETTINGS.CONSTRUCTOR_RIGHT_OFFSET;
       zoomTitle.centerY = ZOOM_TOP + ZOOM_HEIGHT / 2;
       nmLabel.left = zoomRight + 10;
-      nmLabel.centerY = ZOOM_TOP + ZOOM_HEIGHT + TICK_LENGTH + 6;
+      nmLabel.centerY =
+        ZOOM_TOP + ZOOM_HEIGHT + TICK_LENGTH + EM_SPECTRUM_BAR_NODE_SETTINGS.CONSTRUCTOR_CENTER_Y_OFFSET;
     });
     this.addChild(zoomTitle);
     this.addChild(nmLabel);

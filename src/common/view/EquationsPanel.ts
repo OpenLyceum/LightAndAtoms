@@ -1,3 +1,4 @@
+import { EQUATIONS_PANEL_SETTINGS } from "../../LightAndAtomsConstants.js";
 /**
  * EquationsPanel.ts
  *
@@ -34,6 +35,9 @@ export class EquationsPanel extends LightAndAtomsPanel {
           leading: 4,
         }),
     );
-    super(new VBox({ align: "left", spacing: 8, children: [title, ...lines] }), { visibleProperty });
+    super(
+      new VBox({ align: "left", spacing: EQUATIONS_PANEL_SETTINGS.CONSTRUCTOR_SPACING, children: [title, ...lines] }),
+      { visibleProperty },
+    );
   }
 }

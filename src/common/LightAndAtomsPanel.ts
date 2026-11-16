@@ -1,3 +1,4 @@
+import { LIGHT_AND_ATOMS_PANEL_SETTINGS } from "../LightAndAtomsConstants.js";
 /**
  * LightAndAtomsPanel.ts
  *
@@ -40,8 +41,8 @@ export class LightAndAtomsPanel extends Panel {
         fill: LightAndAtomsColors.panelBackgroundColorProperty,
         stroke: LightAndAtomsColors.panelBorderColorProperty,
         cornerRadius: PANEL_CORNER_RADIUS,
-        xMargin: 12,
-        yMargin: 10,
+        xMargin: LIGHT_AND_ATOMS_PANEL_SETTINGS.OPTIONS_X_MARGIN,
+        yMargin: LIGHT_AND_ATOMS_PANEL_SETTINGS.OPTIONS_Y_MARGIN,
       },
       providedOptions,
     );

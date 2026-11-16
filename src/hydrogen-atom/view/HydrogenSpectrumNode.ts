@@ -1,3 +1,4 @@
+import { HYDROGEN_SPECTRUM_NODE_SETTINGS } from "../../LightAndAtomsConstants.js";
 /**
  * HydrogenSpectrumNode.ts
  *
@@ -23,11 +24,11 @@ import { FONT_SIZE, VISIBLE_MAX_NM, VISIBLE_MIN_NM } from "../../LightAndAtomsCo
 import type { HydrogenAtomModel, RecordedLine } from "../model/HydrogenAtomModel.js";
 import { HydrogenMode } from "../model/HydrogenMode.js";
 
-const STRIP_HEIGHT = 44;
-const SECTION_GAP = 14;
+const STRIP_HEIGHT: number = HYDROGEN_SPECTRUM_NODE_SETTINGS.STRIP_HEIGHT;
+const SECTION_GAP: number = HYDROGEN_SPECTRUM_NODE_SETTINGS.SECTION_GAP;
 const LABEL_FONT = new PhetFont(FONT_SIZE.tiny);
 /** Minimum spacing between line labels, px. */
-const LABEL_MIN_SPACING = 30;
+const LABEL_MIN_SPACING: number = HYDROGEN_SPECTRUM_NODE_SETTINGS.LABEL_MIN_SPACING;
 
 type Section = {
   readonly minNm: number;
@@ -38,9 +39,21 @@ type Section = {
 };
 
 const SECTIONS: readonly Section[] = [
-  { minNm: 90, maxNm: 130, width: 150, logScale: false, visible: false },
-  { minNm: VISIBLE_MIN_NM, maxNm: VISIBLE_MAX_NM, width: 370, logScale: false, visible: true },
-  { minNm: VISIBLE_MAX_NM, maxNm: 8000, width: 180, logScale: true, visible: false },
+  { minNm: 90, maxNm: 130, width: HYDROGEN_SPECTRUM_NODE_SETTINGS.SECTIONS_WIDTH, logScale: false, visible: false },
+  {
+    minNm: VISIBLE_MIN_NM,
+    maxNm: VISIBLE_MAX_NM,
+    width: HYDROGEN_SPECTRUM_NODE_SETTINGS.SECTIONS_ITEM_2_WIDTH,
+    logScale: false,
+    visible: true,
+  },
+  {
+    minNm: VISIBLE_MAX_NM,
+    maxNm: 8000,
+    width: HYDROGEN_SPECTRUM_NODE_SETTINGS.SECTIONS_ITEM_3_WIDTH,
+    logScale: true,
+    visible: false,
+  },
 ];
 
 export class HydrogenSpectrumNode extends Node {
@@ -62,11 +75,11 @@ export class HydrogenSpectrumNode extends Node {
       {
         font: new PhetFont({ size: FONT_SIZE.small, weight: "bold" }),
         fill: LightAndAtomsColors.textColorProperty,
-        maxWidth: 560,
+        maxWidth: HYDROGEN_SPECTRUM_NODE_SETTINGS.TITLE_MAX_WIDTH,
       },
     );
     this.addChild(title);
-    const top = 34;
+    const top: number = HYDROGEN_SPECTRUM_NODE_SETTINGS.TOP;
 
     // Section backgrounds and their x offsets.
     const sectionLefts: number[] = [];
@@ -138,9 +151,9 @@ export class HydrogenSpectrumNode extends Node {
       new Text(common.wavelengthNmStringProperty, {
         font: LABEL_FONT,
         fill: LightAndAtomsColors.mutedTextColorProperty,
-        left: x - SECTION_GAP + 6,
+        left: x - SECTION_GAP + HYDROGEN_SPECTRUM_NODE_SETTINGS.CONSTRUCTOR_LEFT_OFFSET,
         top: top + STRIP_HEIGHT + 2,
-        maxWidth: 90,
+        maxWidth: HYDROGEN_SPECTRUM_NODE_SETTINGS.CONSTRUCTOR_MAX_WIDTH,
       }),
     );
 
@@ -176,7 +189,12 @@ export class HydrogenSpectrumNode extends Node {
           continue;
         }
         const color = absorption ? "black" : wavelengthColor(nm, "white");
-        lineLayer.addChild(new Line(lineX, top, lineX, top + STRIP_HEIGHT, { stroke: color, lineWidth: 2 }));
+        lineLayer.addChild(
+          new Line(lineX, top, lineX, top + STRIP_HEIGHT, {
+            stroke: color,
+            lineWidth: HYDROGEN_SPECTRUM_NODE_SETTINGS.REDRAW_LINE_WIDTH,
+          }),
+        );
         if (lineX - lastLabelX >= LABEL_MIN_SPACING) {
           lineLayer.addChild(
             new Text(toSignificantFigures(nm, 3), {
@@ -195,7 +213,7 @@ export class HydrogenSpectrumNode extends Node {
     Multilink.multilink([isAbsorption], redraw);
 
     // The title row sits above the line labels, with Clear at its right end.
-    title.bottom = top - 16;
+    title.bottom = top - HYDROGEN_SPECTRUM_NODE_SETTINGS.CONSTRUCTOR_BOTTOM_OFFSET;
     this.addChild(clearButton);
     clearButton.right = x - SECTION_GAP;
     clearButton.centerY = title.centerY;

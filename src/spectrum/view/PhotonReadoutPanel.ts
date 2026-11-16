@@ -1,3 +1,4 @@
+import { PHOTON_READOUT_PANEL_SETTINGS } from "../../LightAndAtomsConstants.js";
 /**
  * PhotonReadoutPanel.ts
  *
@@ -27,7 +28,7 @@ import { regionStringProperty } from "./regionStrings.js";
 
 const LABEL_FONT = new PhetFont(FONT_SIZE.small);
 const VALUE_FONT = new PhetFont({ size: FONT_SIZE.label, weight: "bold" });
-const PANEL_CONTENT_WIDTH = 210;
+const PANEL_CONTENT_WIDTH: number = PHOTON_READOUT_PANEL_SETTINGS.PANEL_CONTENT_WIDTH;
 
 /** A "label / value" pair stacked vertically, so long localised labels never squeeze the value. */
 function readout(labelProperty: TReadOnlyProperty<string>, valueProperty: TReadOnlyProperty<string>): VBox {
@@ -71,14 +72,17 @@ export class PhotonReadoutPanel extends LightAndAtomsPanel {
     const units = StringManager.getInstance().getUnitStrings();
 
     const title = new HBox({
-      spacing: 6,
+      spacing: PHOTON_READOUT_PANEL_SETTINGS.TITLE_SPACING,
       justify: "left",
       children: [
-        new Rectangle(0, 0, 12, 12, { fill: color, stroke: "black" }),
+        new Rectangle(0, 0, PHOTON_READOUT_PANEL_SETTINGS.TITLE_WIDTH, PHOTON_READOUT_PANEL_SETTINGS.TITLE_HEIGHT, {
+          fill: color,
+          stroke: "black",
+        }),
         new Text(titleProperty, {
           font: new PhetFont({ size: FONT_SIZE.title, weight: "bold" }),
           fill: LightAndAtomsColors.textColorProperty,
-          maxWidth: PANEL_CONTENT_WIDTH - 20,
+          maxWidth: PANEL_CONTENT_WIDTH - PHOTON_READOUT_PANEL_SETTINGS.TITLE_MAX_WIDTH_OFFSET,
         }),
       ],
     });
@@ -160,7 +164,14 @@ export class PhotonReadoutPanel extends LightAndAtomsPanel {
       );
     }
 
-    super(new VBox({ align: "left", spacing: 6, children, minContentWidth: PANEL_CONTENT_WIDTH }));
+    super(
+      new VBox({
+        align: "left",
+        spacing: PHOTON_READOUT_PANEL_SETTINGS.CONSTRUCTOR_SPACING,
+        children,
+        minContentWidth: PANEL_CONTENT_WIDTH,
+      }),
+    );
 
     this.disposePhotonReadoutPanel = () => {
       for (const property of derived) {

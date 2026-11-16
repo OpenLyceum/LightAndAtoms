@@ -1,3 +1,4 @@
+import { BOHR_ATOM_NODE_SETTINGS } from "../../LightAndAtomsConstants.js";
 /**
  * BohrAtomNode.ts
  *
@@ -28,9 +29,9 @@ import { HydrogenMode } from "../model/HydrogenMode.js";
 import { PhotonNode } from "./PhotonNode.js";
 
 /** Radius of the outermost (n = MAX_LEVEL) orbit, px. */
-const OUTER_ORBIT_RADIUS = 142;
+const OUTER_ORBIT_RADIUS: number = BOHR_ATOM_NODE_SETTINGS.OUTER_ORBIT_RADIUS;
 /** Angular speed of the electron in n = 1, rad/s. */
-const GROUND_ANGULAR_SPEED = 5;
+const GROUND_ANGULAR_SPEED: number = BOHR_ATOM_NODE_SETTINGS.GROUND_ANGULAR_SPEED;
 
 /** Orbit radius of level n, px. */
 function orbitRadius(n: number): number {
@@ -57,17 +58,17 @@ export class BohrAtomNode extends Node {
       {
         fill: LightAndAtomsColors.chartBackgroundColorProperty,
         stroke: LightAndAtomsColors.panelBorderColorProperty,
-        cornerRadius: 6,
+        cornerRadius: BOHR_ATOM_NODE_SETTINGS.FRAME_CORNER_RADIUS,
       },
     );
     const caption = new Text(strings.bohrModelStringProperty, {
       font: new PhetFont(FONT_SIZE.small),
       fill: LightAndAtomsColors.mutedTextColorProperty,
-      maxWidth: 2 * ATOM_VIEW_HALF_WIDTH - 16,
+      maxWidth: 2 * ATOM_VIEW_HALF_WIDTH - BOHR_ATOM_NODE_SETTINGS.CAPTION_MAX_WIDTH_OFFSET,
     });
     caption.boundsProperty.link(() => {
-      caption.left = -ATOM_VIEW_HALF_WIDTH + 8;
-      caption.top = -ATOM_VIEW_HALF_HEIGHT + 6;
+      caption.left = -ATOM_VIEW_HALF_WIDTH + BOHR_ATOM_NODE_SETTINGS.CONSTRUCTOR_LEFT_OFFSET;
+      caption.top = -ATOM_VIEW_HALF_HEIGHT + BOHR_ATOM_NODE_SETTINGS.CONSTRUCTOR_TOP_OFFSET;
     });
 
     const orbits = new Node();
@@ -75,26 +76,45 @@ export class BohrAtomNode extends Node {
     for (let n = 1; n <= MAX_LEVEL; n++) {
       const radius = orbitRadius(n);
       orbits.addChild(
-        new Circle(radius, { stroke: LightAndAtomsColors.orbitColorProperty, lineDash: n === 1 ? [] : [3, 3] }),
+        new Circle(radius, {
+          stroke: LightAndAtomsColors.orbitColorProperty,
+          lineDash:
+            n === 1
+              ? []
+              : [
+                  BOHR_ATOM_NODE_SETTINGS.CONSTRUCTOR_LINE_DASH_DASH,
+                  BOHR_ATOM_NODE_SETTINGS.CONSTRUCTOR_LINE_DASH_DASH,
+                ],
+        }),
       );
       if (n >= 3) {
         orbitLabels.addChild(
           new Text(String(n), {
             font: new PhetFont(FONT_SIZE.tiny),
             fill: LightAndAtomsColors.mutedTextColorProperty,
-            centerX: radius * Math.cos(-Math.PI / 4) + 6,
-            centerY: radius * Math.sin(-Math.PI / 4) - 6,
+            centerX:
+              radius * Math.cos(-Math.PI / BOHR_ATOM_NODE_SETTINGS.CONSTRUCTOR_CENTER_X_FACTOR) +
+              BOHR_ATOM_NODE_SETTINGS.CONSTRUCTOR_CENTER_X_OFFSET,
+            centerY:
+              radius * Math.sin(-Math.PI / BOHR_ATOM_NODE_SETTINGS.CONSTRUCTOR_CENTER_Y_FACTOR) -
+              BOHR_ATOM_NODE_SETTINGS.CONSTRUCTOR_CENTER_Y_OFFSET,
           }),
         );
       }
     }
-    const nucleus = new Circle(4, { fill: LightAndAtomsColors.nucleusColorProperty });
-    this.electron = new Circle(5, { fill: LightAndAtomsColors.electronColorProperty, stroke: "white", lineWidth: 0.5 });
+    const nucleus = new Circle(BOHR_ATOM_NODE_SETTINGS.NUCLEUS_RADIUS, {
+      fill: LightAndAtomsColors.nucleusColorProperty,
+    });
+    this.electron = new Circle(BOHR_ATOM_NODE_SETTINGS.ELECTRON_RADIUS, {
+      fill: LightAndAtomsColors.electronColorProperty,
+      stroke: "white",
+      lineWidth: BOHR_ATOM_NODE_SETTINGS.ELECTRON_LINE_WIDTH,
+    });
 
     // Highlight the occupied orbit.
     const occupiedOrbit = new Circle(orbitRadius(1), {
       stroke: LightAndAtomsColors.occupiedLevelColorProperty,
-      lineWidth: 2,
+      lineWidth: BOHR_ATOM_NODE_SETTINGS.OCCUPIED_ORBIT_LINE_WIDTH,
     });
     Multilink.multilink([model.levelProperty, model.ionizedProperty], (level, ionized) => {
       occupiedOrbit.radius = orbitRadius(level);
@@ -105,26 +125,38 @@ export class BohrAtomNode extends Node {
     const ionizedText = new Text(strings.ionizedStringProperty, {
       font: new PhetFont({ size: FONT_SIZE.label, weight: "bold" }),
       fill: LightAndAtomsColors.electronColorProperty,
-      maxWidth: 2 * ATOM_VIEW_HALF_WIDTH - 20,
+      maxWidth: 2 * ATOM_VIEW_HALF_WIDTH - BOHR_ATOM_NODE_SETTINGS.IONIZED_TEXT_MAX_WIDTH_OFFSET,
       visibleProperty: model.ionizedProperty,
     });
     ionizedText.boundsProperty.link(() => {
       ionizedText.centerX = 0;
-      ionizedText.bottom = ATOM_VIEW_HALF_HEIGHT - 10;
+      ionizedText.bottom = ATOM_VIEW_HALF_HEIGHT - BOHR_ATOM_NODE_SETTINGS.CONSTRUCTOR_BOTTOM_OFFSET;
     });
 
     // The lamp, shown in absorption mode: a housing with a lens in the colour of its photons.
-    const lens = new Rectangle(0, -12, 6, 24, { cornerRadius: 2 });
+    const lens = new Rectangle(
+      0,
+      BOHR_ATOM_NODE_SETTINGS.LENS_Y,
+      BOHR_ATOM_NODE_SETTINGS.LENS_WIDTH,
+      BOHR_ATOM_NODE_SETTINGS.LENS_HEIGHT,
+      { cornerRadius: BOHR_ATOM_NODE_SETTINGS.LENS_CORNER_RADIUS },
+    );
     const lamp = new Node({
       children: [
-        new Rectangle(-24, -14, 24, 28, {
-          fill: LightAndAtomsColors.lampHousingColorProperty,
-          stroke: LightAndAtomsColors.lampHousingStrokeColorProperty,
-          cornerRadius: 3,
-        }),
+        new Rectangle(
+          BOHR_ATOM_NODE_SETTINGS.LAMP_X,
+          BOHR_ATOM_NODE_SETTINGS.LAMP_Y,
+          BOHR_ATOM_NODE_SETTINGS.LAMP_WIDTH,
+          BOHR_ATOM_NODE_SETTINGS.LAMP_HEIGHT,
+          {
+            fill: LightAndAtomsColors.lampHousingColorProperty,
+            stroke: LightAndAtomsColors.lampHousingStrokeColorProperty,
+            cornerRadius: BOHR_ATOM_NODE_SETTINGS.LAMP_CORNER_RADIUS,
+          },
+        ),
         lens,
       ],
-      x: -ATOM_VIEW_HALF_WIDTH + 26,
+      x: -ATOM_VIEW_HALF_WIDTH + BOHR_ATOM_NODE_SETTINGS.LAMP_X_OFFSET,
       visibleProperty: new DerivedProperty([model.modeProperty], (mode) => mode === HydrogenMode.ABSORPTION),
     });
     model.photonWavelengthProperty.link((nm) => {
@@ -132,7 +164,7 @@ export class BohrAtomNode extends Node {
     });
     const beamGuide = new Path(Shape.lineSegment(-ATOM_VIEW_HALF_WIDTH + 32, 0, ATOM_VIEW_HALF_WIDTH, 0), {
       stroke: LightAndAtomsColors.orbitColorProperty,
-      lineDash: [2, 6],
+      lineDash: [2, BOHR_ATOM_NODE_SETTINGS.BEAM_GUIDE_LINE_DASH_DASH],
       visibleProperty: lamp.visibleProperty,
     });
 

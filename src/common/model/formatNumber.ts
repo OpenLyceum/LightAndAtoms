@@ -1,3 +1,4 @@
+import { FORMAT_NUMBER_SETTINGS } from "../../LightAndAtomsConstants.js";
 /**
  * formatNumber.ts
  *
@@ -37,7 +38,10 @@ export function toScientificParts(value: number, sigFigs: number): { mantissa: s
 }
 
 /** RichText markup for `value` in scientific notation, e.g. "6.00 × 10<sup>14</sup>". */
-export function toScientificMarkup(value: number, sigFigs = 3): string {
+export function toScientificMarkup(
+  value: number,
+  sigFigs: number = FORMAT_NUMBER_SETTINGS.DEFAULT_SIGNIFICANT_FIGURES,
+): string {
   const { mantissa, exponent } = toScientificParts(value, sigFigs);
   return `${mantissa} × 10<sup>${withMinus(String(exponent))}</sup>`;
 }
@@ -82,7 +86,7 @@ export function readableLength(meters: number): { value: number; unit: LengthUni
   let chosen = LENGTH_UNITS[0] ?? { unit: "m" as const, meters: 1 };
   for (const candidate of LENGTH_UNITS) {
     // A small tolerance keeps 1.000 µm from reading as 1000 nm through floating-point noise.
-    if (meters >= candidate.meters * (1 - 1e-9)) {
+    if (meters >= candidate.meters * (1 - FORMAT_NUMBER_SETTINGS.UNIT_BOUNDARY_TOLERANCE)) {
       chosen = candidate;
     }
   }

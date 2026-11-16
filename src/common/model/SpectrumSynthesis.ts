@@ -1,3 +1,4 @@
+import { SPECTRUM_SYNTHESIS_SETTINGS } from "../../LightAndAtomsConstants.js";
 /**
  * SpectrumSynthesis.ts
  *
@@ -66,7 +67,7 @@ function lineProfile(features: readonly SpectralFeature[]): Float64Array {
   const profile = new Float64Array(SPECTRUM_WAVELENGTHS.length);
   for (const feature of features) {
     const sigma = Math.hypot(INSTRUMENT_SIGMA_NM, feature.width);
-    const reach = 5 * sigma;
+    const reach = SPECTRUM_SYNTHESIS_SETTINGS.GAUSSIAN_SUPPORT_SIGMAS * sigma;
     const first = Math.max(0, Math.ceil((feature.wavelength - reach - SPECTROSCOPE_MIN_NM) / SPECTRUM_SAMPLE_STEP_NM));
     const last = Math.min(
       SPECTRUM_WAVELENGTHS.length - 1,
@@ -95,7 +96,11 @@ export function emissionSpectrum(...lineLists: (readonly SpectralFeature[])[]): 
 
 /** Continuous spectrum of a blackbody at temperature T (K). */
 export function continuousSpectrum(temperature: number): SampledSpectrum {
-  return normalize(SPECTRUM_WAVELENGTHS.map((nm) => planckRadiance(nm * 1e-9, temperature)));
+  return normalize(
+    SPECTRUM_WAVELENGTHS.map((nm) =>
+      planckRadiance(nm * SPECTRUM_SYNTHESIS_SETTINGS.METERS_PER_NANOMETER, temperature),
+    ),
+  );
 }
 
 /** Multiplies a continuum by 1 − depth × (line profile scaled so its deepest line has depth MAX_ABSORPTION_DEPTH). */

@@ -1,3 +1,4 @@
+import { EM_SPECTRUM_SCREEN_VIEW_SETTINGS } from "../../LightAndAtomsConstants.js";
 /**
  * EMSpectrumScreenView.ts
  *
@@ -46,15 +47,15 @@ import { regionStringProperty } from "./regionStrings.js";
 import { canDrawWavesToScale, logScreenWavelength, sharedScreenWavelengths, WaveNode } from "./WaveNode.js";
 
 /** Top of the spectrum bar, px. */
-const BAR_TOP = 62;
+const BAR_TOP: number = EM_SPECTRUM_SCREEN_VIEW_SETTINGS.BAR_TOP;
 /** Top of the lower half (waves, readouts), px. */
 const LOWER_TOP = BAR_TOP + ZOOM_TOP + ZOOM_HEIGHT + 24;
 /** Wave boxes, px. */
-const WAVE_WIDTH = 500;
-const WAVE_HEIGHT = 76;
-const WAVE_GAP = 8;
+const WAVE_WIDTH: number = EM_SPECTRUM_SCREEN_VIEW_SETTINGS.WAVE_WIDTH;
+const WAVE_HEIGHT: number = EM_SPECTRUM_SCREEN_VIEW_SETTINGS.WAVE_HEIGHT;
+const WAVE_GAP: number = EM_SPECTRUM_SCREEN_VIEW_SETTINGS.WAVE_GAP;
 /** Gap between the left column and the readout panels, px. */
-const COLUMN_GAP = 20;
+const COLUMN_GAP: number = EM_SPECTRUM_SCREEN_VIEW_SETTINGS.COLUMN_GAP;
 
 export type EMSpectrumScreenViewOptions = ScreenViewOptions;
 
@@ -132,7 +133,10 @@ export class EMSpectrumScreenView extends ScreenView {
 
     // Each photon also gets a tick on the magnified visible strip while it is visible.
     const createZoomTick = (photon: PhotonState, color: typeof LightAndAtomsColors.photon1ColorProperty): Line => {
-      const tick = new Line(0, ZOOM_TOP - 4, 0, ZOOM_TOP + ZOOM_HEIGHT + 4, { stroke: color, lineWidth: 3 });
+      const tick = new Line(0, ZOOM_TOP - 4, 0, ZOOM_TOP + ZOOM_HEIGHT + 4, {
+        stroke: color,
+        lineWidth: EM_SPECTRUM_SCREEN_VIEW_SETTINGS.TICK_LINE_WIDTH,
+      });
       photon.wavelengthProperty.link((wavelength) => {
         const nm = metersToNm(wavelength);
         tick.x = bar.nmToZoomX(Math.min(VISIBLE_MAX_NM, Math.max(VISIBLE_MIN_NM, nm)));
@@ -187,7 +191,7 @@ export class EMSpectrumScreenView extends ScreenView {
         font: new PhetFont(FONT_SIZE.small),
         fill: LightAndAtomsColors.mutedTextColorProperty,
         left,
-        top: LOWER_TOP + 2 * WAVE_HEIGHT + WAVE_GAP + 4,
+        top: LOWER_TOP + 2 * WAVE_HEIGHT + WAVE_GAP + EM_SPECTRUM_SCREEN_VIEW_SETTINGS.WAVE_CAPTION_TOP_OFFSET,
         maxWidth: WAVE_WIDTH,
       },
     );
@@ -250,7 +254,7 @@ export class EMSpectrumScreenView extends ScreenView {
       new Text(stringProperty, {
         font: new PhetFont(FONT_SIZE.label),
         fill: LightAndAtomsColors.textColorProperty,
-        maxWidth: 220,
+        maxWidth: EM_SPECTRUM_SCREEN_VIEW_SETTINGS.CHECKBOX_LABEL_MAX_WIDTH,
       });
     const compareCheckbox = new Checkbox(model.compareProperty, checkboxLabel(strings.compareStringProperty), {
       ...LIGHT_AND_ATOMS_CHECKBOX_OPTIONS,
@@ -266,23 +270,26 @@ export class EMSpectrumScreenView extends ScreenView {
     );
     const controls = new VBox({
       align: "left",
-      spacing: 8,
+      spacing: EM_SPECTRUM_SCREEN_VIEW_SETTINGS.CONTROLS_SPACING,
       children: [
         new HBox({
-          spacing: 8,
+          spacing: EM_SPECTRUM_SCREEN_VIEW_SETTINGS.CONTROLS_SPACING,
           children: [
             new Text(strings.examplesTitleStringProperty, {
               font: new PhetFont(FONT_SIZE.label),
               fill: LightAndAtomsColors.textColorProperty,
-              maxWidth: 100,
+              maxWidth: EM_SPECTRUM_SCREEN_VIEW_SETTINGS.CONTROLS_MAX_WIDTH,
             }),
             exampleComboBox,
           ],
         }),
-        new HBox({ spacing: 24, children: [compareCheckbox, equationsCheckbox] }),
+        new HBox({
+          spacing: EM_SPECTRUM_SCREEN_VIEW_SETTINGS.CONTROLS_ITEM_2_SPACING,
+          children: [compareCheckbox, equationsCheckbox],
+        }),
       ],
       left,
-      top: waveCaption.bottom + 10,
+      top: waveCaption.bottom + EM_SPECTRUM_SCREEN_VIEW_SETTINGS.CONTROLS_TOP_OFFSET,
     });
     this.addChild(controls);
 
@@ -290,7 +297,7 @@ export class EMSpectrumScreenView extends ScreenView {
     const equationLines = createEMEquationLines(model.photon1, inverseSecondsProperty);
     const equationsPanel = new EquationsPanel([equationLines], model.showEquationsProperty, WAVE_WIDTH - 24);
     equationsPanel.left = left;
-    equationsPanel.top = controls.bottom + 8;
+    equationsPanel.top = controls.bottom + EM_SPECTRUM_SCREEN_VIEW_SETTINGS.CONSTRUCTOR_TOP_OFFSET;
     this.addChild(equationsPanel);
 
     // ── Readouts (right column) ───────────────────────────────────────────────
@@ -310,7 +317,7 @@ export class EMSpectrumScreenView extends ScreenView {
       inverseSecondsProperty,
       model.photon1,
     );
-    readout2.left = readout1.right + 10;
+    readout2.left = readout1.right + EM_SPECTRUM_SCREEN_VIEW_SETTINGS.CONSTRUCTOR_LEFT_OFFSET;
     readout2.top = LOWER_TOP;
     model.compareProperty.link((compare) => {
       readout2.visible = compare;

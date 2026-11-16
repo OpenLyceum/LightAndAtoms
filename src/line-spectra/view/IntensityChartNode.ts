@@ -1,3 +1,4 @@
+import { INTENSITY_CHART_NODE_SETTINGS } from "../../LightAndAtomsConstants.js";
 /**
  * IntensityChartNode.ts
  *
@@ -18,7 +19,7 @@ import LightAndAtomsColors from "../../LightAndAtomsColors.js";
 import { FONT_SIZE, SPECTROSCOPE_MAX_NM, SPECTROSCOPE_MIN_NM } from "../../LightAndAtomsConstants.js";
 
 /** Headroom above the tallest peak, as a fraction of it. */
-const Y_HEADROOM = 1.08;
+const Y_HEADROOM: number = INTENSITY_CHART_NODE_SETTINGS.Y_HEADROOM;
 
 export class IntensityChartNode extends Node {
   public constructor(spectrumProperty: TReadOnlyProperty<SampledSpectrum>, width: number, height: number) {
@@ -34,7 +35,7 @@ export class IntensityChartNode extends Node {
     const tickFont = new PhetFont(FONT_SIZE.tiny);
     const plot = new LinePlot(chartTransform, [], {
       stroke: LightAndAtomsColors.chartCurveColorProperty,
-      lineWidth: 1.5,
+      lineWidth: INTENSITY_CHART_NODE_SETTINGS.PLOT_LINE_WIDTH,
     });
     spectrumProperty.link((spectrum) => {
       plot.setDataSet(Array.from(spectrum, (value, i) => new Vector2(SPECTRUM_WAVELENGTHS[i] ?? 0, value)));
@@ -47,7 +48,7 @@ export class IntensityChartNode extends Node {
     });
     xLabel.boundsProperty.link(() => {
       xLabel.centerX = width / 2;
-      xLabel.top = height + 18;
+      xLabel.top = height + INTENSITY_CHART_NODE_SETTINGS.CONSTRUCTOR_TOP_OFFSET;
     });
     const yLabel = new Text(common.intensityStringProperty, {
       font: new PhetFont(FONT_SIZE.small),
@@ -56,7 +57,7 @@ export class IntensityChartNode extends Node {
       maxWidth: height,
     });
     yLabel.boundsProperty.link(() => {
-      yLabel.right = -6;
+      yLabel.right = INTENSITY_CHART_NODE_SETTINGS.RIGHT_RIGHT;
       yLabel.centerY = height / 2;
     });
 

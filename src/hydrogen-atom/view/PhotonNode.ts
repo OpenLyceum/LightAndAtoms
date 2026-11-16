@@ -1,3 +1,4 @@
+import { PHOTON_NODE_SETTINGS } from "../../LightAndAtomsConstants.js";
 /**
  * PhotonNode.ts
  *
@@ -12,9 +13,9 @@ import { isVisible, wavelengthColor } from "../../common/view/spectralColor.js";
 import LightAndAtomsColors from "../../LightAndAtomsColors.js";
 
 /** Packet length, crest spacing and amplitude, px. */
-const PACKET_LENGTH = 26;
-const PACKET_WAVELENGTH = 7;
-const PACKET_AMPLITUDE = 4;
+const PACKET_LENGTH: number = PHOTON_NODE_SETTINGS.PACKET_LENGTH;
+const PACKET_WAVELENGTH: number = PHOTON_NODE_SETTINGS.PACKET_WAVELENGTH;
+const PACKET_AMPLITUDE: number = PHOTON_NODE_SETTINGS.PACKET_AMPLITUDE;
 
 const PACKET_SHAPE = (() => {
   const shape = new Shape().moveTo(-PACKET_LENGTH, 0);
@@ -26,14 +27,21 @@ const PACKET_SHAPE = (() => {
   return shape;
 })();
 
-const HEAD_SHAPE = new Shape().moveTo(6, 0).lineTo(-1, -4).lineTo(-1, 4).close();
+const HEAD_SHAPE = new Shape()
+  .moveTo(PHOTON_NODE_SETTINGS.HEAD_SHAPE_X, 0)
+  .lineTo(-1, PHOTON_NODE_SETTINGS.HEAD_SHAPE_Y)
+  .lineTo(-1, PHOTON_NODE_SETTINGS.HEAD_SHAPE_Y_SEGMENT_2)
+  .close();
 
 export class PhotonNode extends Node {
   public constructor(wavelength: number, direction: { x: number; y: number }) {
     const nm = metersToNm(wavelength);
     const color = isVisible(nm) ? wavelengthColor(nm) : LightAndAtomsColors.invisibleWaveColorProperty;
     super({
-      children: [new Path(PACKET_SHAPE, { stroke: color, lineWidth: 2.5 }), new Path(HEAD_SHAPE, { fill: color })],
+      children: [
+        new Path(PACKET_SHAPE, { stroke: color, lineWidth: PHOTON_NODE_SETTINGS.CONSTRUCTOR_LINE_WIDTH }),
+        new Path(HEAD_SHAPE, { fill: color }),
+      ],
       rotation: Math.atan2(direction.y, direction.x),
       pickable: false,
     });
