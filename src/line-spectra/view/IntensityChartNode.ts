@@ -57,7 +57,7 @@ export class IntensityChartNode extends Node {
       maxWidth: height,
     });
     yLabel.boundsProperty.link(() => {
-      yLabel.right = INTENSITY_CHART_NODE_SETTINGS.RIGHT_RIGHT;
+      yLabel.right = INTENSITY_CHART_NODE_SETTINGS.Y_LABEL_RIGHT;
       yLabel.centerY = height / 2;
     });
 

@@ -108,7 +108,7 @@ export class EnergyLevelDiagramNode extends Node {
       const ly = labelY[n] ?? y;
       const line = new Line(0, y, LEVEL_WIDTH, y, {
         stroke: LightAndAtomsColors.energyLevelColorProperty,
-        lineWidth: ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS.LINE_LINE_WIDTH,
+        lineWidth: ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS.LINE_WIDTH,
       });
       levelLines.push(line);
       this.addChild(line);

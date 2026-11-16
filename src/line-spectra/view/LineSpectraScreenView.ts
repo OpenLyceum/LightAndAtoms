@@ -290,7 +290,7 @@ export class LineSpectraScreenView extends ScreenView {
       accessibleName: a11y.cursorStringProperty,
       accessibleHelpText: a11y.cursorHelpStringProperty,
     });
-    cursor.opacity = LINE_SPECTRA_SCREEN_VIEW_SETTINGS.OPACITY_OPACITY;
+    cursor.opacity = LINE_SPECTRA_SCREEN_VIEW_SETTINGS.CURSOR_OPACITY;
     cursorLayer.addChild(cursor);
     this.addChild(cursorLayer);
 

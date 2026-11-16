@@ -173,16 +173,16 @@ export const LIGHT_AND_ATOMS_CONTROL_OPTIONS_SETTINGS = {
   NUMBER_CONTROL_SLIDER_TRACK_SIZE_HEIGHT: 3,
   /** Checkbox box width (px). */
   CHECKBOX_BOX_WIDTH: 16,
-  /** Light and atoms number control options scale (dimensionless). */
-  LIGHT_AND_ATOMS_NUMBER_CONTROL_OPTIONS_SCALE: 0.75,
-  /** Light and atoms number control options slider padding (px). */
-  LIGHT_AND_ATOMS_NUMBER_CONTROL_OPTIONS_SLIDER_PADDING: 4,
-  /** Light and atoms number control options arrow button spacing (px). */
-  LIGHT_AND_ATOMS_NUMBER_CONTROL_OPTIONS_ARROW_BUTTON_SPACING: 3,
-  /** Light and atoms number control options vertical spacing (px). */
-  LIGHT_AND_ATOMS_NUMBER_CONTROL_OPTIONS_VERTICAL_SPACING: 4,
-  /** Light and atoms checkbox options spacing (px). */
-  LIGHT_AND_ATOMS_CHECKBOX_OPTIONS_SPACING: 4,
+  /** NumberControl arrow-button scale (dimensionless). */
+  NUMBER_CONTROL_SCALE: 0.75,
+  /** NumberControl layout slider padding (px). */
+  NUMBER_CONTROL_SLIDER_PADDING: 4,
+  /** NumberControl layout arrow-button spacing (px). */
+  NUMBER_CONTROL_ARROW_BUTTON_SPACING: 3,
+  /** NumberControl layout vertical spacing (px). */
+  NUMBER_CONTROL_VERTICAL_SPACING: 4,
+  /** Checkbox label spacing (px). */
+  CHECKBOX_SPACING: 4,
 } as const;
 
 /** Settings for common/LightAndAtomsPanel.ts. */
@@ -383,8 +383,8 @@ export const ENERGY_LEVEL_DIAGRAM_NODE_SETTINGS = {
   CONSTRUCTOR_HEAD_WIDTH: 8,
   /** Constructor max width (px). */
   CONSTRUCTOR_MAX_WIDTH: 150,
-  /** Line line width (px). */
-  LINE_LINE_WIDTH: 2,
+  /** Energy-level line width (px). */
+  LINE_WIDTH: 2,
   /** Constructor line width (px). */
   CONSTRUCTOR_LINE_WIDTH: 0.5,
   /** N label max width (px). */
@@ -486,8 +486,8 @@ export const INTENSITY_CHART_NODE_SETTINGS = {
   Y_HEADROOM: 1.08,
   /** Plot line width (px). */
   PLOT_LINE_WIDTH: 1.5,
-  /** Right right (px). */
-  RIGHT_RIGHT: -6,
+  /** Y-axis label right edge relative to the chart origin (px). */
+  Y_LABEL_RIGHT: -6,
 } as const;
 
 /** Settings for line-spectra/view/LineSpectraScreenView.ts. */
@@ -523,8 +523,8 @@ export const LINE_SPECTRA_SCREEN_VIEW_SETTINGS = {
   TEMPERATURE_CONTROL_PAGE_KEYBOARD_STEP: 500,
   /** Reference row spacing (px). */
   REFERENCE_ROW_SPACING: 8,
-  /** Opacity opacity (dimensionless). */
-  OPACITY_OPACITY: 0.85,
+  /** Wavelength cursor opacity (dimensionless). */
+  CURSOR_OPACITY: 0.85,
 } as const;
 
 /** Settings for line-spectra/view/MysteryPanel.ts. */
