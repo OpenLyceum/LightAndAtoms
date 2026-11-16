@@ -184,7 +184,7 @@ export function createLineSpectraIcon(): ScreenIcon {
         LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.CREATE_LINE_SPECTRA_ICON_Y_SEGMENT_2,
         LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.CREATE_LINE_SPECTRA_ICON_WIDTH_SEGMENT_2,
         LIGHT_AND_ATOMS_SCREEN_ICONS_SETTINGS.CREATE_LINE_SPECTRA_ICON_HEIGHT_SEGMENT_2,
-        { fill: "black" },
+        { fill: LightAndAtomsColors.iconAbsorptionLineColorProperty },
       ),
     );
   }

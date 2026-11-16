@@ -242,6 +242,56 @@ const LightAndAtomsColors = {
     default: "#1a1a1a",
     projector: "#1a1a1a",
   }),
+
+  // ── Moved from views (no-inline-color) ─────────────────────────────────────
+
+  /** Dark lines on the Line Spectra screen icon's spectrum strip. */
+  iconAbsorptionLineColorProperty: new ProfileColorProperty(LightAndAtomsNamespace, "iconAbsorptionLine", {
+    default: "#000000",
+    projector: "#000000",
+  }),
+
+  /** Outline of the draggable spectrum marker line and handle. */
+  spectrumMarkerOutlineColorProperty: new ProfileColorProperty(LightAndAtomsNamespace, "spectrumMarkerOutline", {
+    default: "#000000",
+    projector: "#000000",
+  }),
+
+  /** Outline around the electron dot (Bohr atom and energy-level diagram). */
+  electronOutlineColorProperty: new ProfileColorProperty(LightAndAtomsNamespace, "electronOutline", {
+    default: "#ffffff",
+    projector: "#ffffff",
+  }),
+
+  /** "Hidden gas" label drawn on the glowing discharge tube. */
+  mysteryLabelColorProperty: new ProfileColorProperty(LightAndAtomsNamespace, "mysteryLabel", {
+    default: "#000000",
+    projector: "#000000",
+  }),
+
+  /** White-light lamp in the absorption setup. */
+  whiteLampColorProperty: new ProfileColorProperty(LightAndAtomsNamespace, "whiteLamp", {
+    default: "#ffffff",
+    projector: "#ffffff",
+  }),
+
+  /** Beam from the white-light lamp in the absorption setup. */
+  whiteLightBeamColorProperty: new ProfileColorProperty(LightAndAtomsNamespace, "whiteLightBeam", {
+    default: "#ffffff",
+    projector: "#ffffff",
+  }),
+
+  /** "Spectroscope" label in the source illustration. */
+  spectroscopeLabelColorProperty: new ProfileColorProperty(LightAndAtomsNamespace, "spectroscopeLabel", {
+    default: "#ffffff",
+    projector: "#ffffff",
+  }),
+
+  /** Outline of the photon color swatch in the readout title. */
+  photonSwatchStrokeColorProperty: new ProfileColorProperty(LightAndAtomsNamespace, "photonSwatchStroke", {
+    default: "#000000",
+    projector: "#000000",
+  }),
 };
 
 export default LightAndAtomsColors;

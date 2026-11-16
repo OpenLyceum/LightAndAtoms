@@ -77,7 +77,7 @@ export class PhotonReadoutPanel extends LightAndAtomsPanel {
       children: [
         new Rectangle(0, 0, PHOTON_READOUT_PANEL_SETTINGS.TITLE_WIDTH, PHOTON_READOUT_PANEL_SETTINGS.TITLE_HEIGHT, {
           fill: color,
-          stroke: "black",
+          stroke: LightAndAtomsColors.photonSwatchStrokeColorProperty,
         }),
         new Text(titleProperty, {
           font: new PhetFont({ size: FONT_SIZE.title, weight: "bold" }),

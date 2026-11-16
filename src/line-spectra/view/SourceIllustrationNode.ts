@@ -67,7 +67,7 @@ export class SourceIllustrationNode extends Node {
     });
     const mysteryLabel = new Text(strings.hiddenGasStringProperty, {
       font: new PhetFont({ size: SOURCE_ILLUSTRATION_NODE_SETTINGS.MYSTERY_LABEL_FONT_SIZE, weight: "bold" }),
-      fill: "black",
+      fill: LightAndAtomsColors.mysteryLabelColorProperty,
       center: tubeGlass.center,
     });
 
@@ -145,14 +145,14 @@ export class SourceIllustrationNode extends Node {
     const whiteLamp = new Circle(SOURCE_ILLUSTRATION_NODE_SETTINGS.WHITE_LAMP_RADIUS, {
       centerX: cx - SOURCE_ILLUSTRATION_NODE_SETTINGS.WHITE_LAMP_CENTER_X_OFFSET,
       centerY: cy,
-      fill: "white",
+      fill: LightAndAtomsColors.whiteLampColorProperty,
       stroke: housingStroke,
     });
     const absorptionSetup = new Node({
       children: [
         whiteLamp,
         new Path(Shape.lineSegment(cx - 34, cy, cx - 10, cy), {
-          stroke: "white",
+          stroke: LightAndAtomsColors.whiteLightBeamColorProperty,
           lineWidth: SOURCE_ILLUSTRATION_NODE_SETTINGS.ABSORPTION_SETUP_LINE_WIDTH,
           opacity: SOURCE_ILLUSTRATION_NODE_SETTINGS.ABSORPTION_SETUP_OPACITY,
         }),
@@ -178,7 +178,7 @@ export class SourceIllustrationNode extends Node {
     );
     const spectroscopeLabel = new Text(strings.spectroscopeStringProperty, {
       font: new PhetFont(FONT_SIZE.small),
-      fill: "white",
+      fill: LightAndAtomsColors.spectroscopeLabelColorProperty,
       maxWidth: SOURCE_ILLUSTRATION_NODE_SETTINGS.SPECTROSCOPE_LABEL_MAX_WIDTH,
     });
     spectroscopeLabel.boundsProperty.link(() => {

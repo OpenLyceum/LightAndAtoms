@@ -71,7 +71,8 @@ export function perceivedColor(wavelengths: ArrayLike<number>, values: ArrayLike
   const b = Math.max(0, 0.0557 * x - 0.204 * y + 1.057 * z) / EQUAL_ENERGY_RGB[2];
   const max = Math.max(r, g, b);
   if (max <= 0) {
-    return new Color(0, 0, 0);
+    // No light is physical black, not a theme color.
+    return Color.BLACK;
   }
   return new Color(encodeSrgb(r / max), encodeSrgb(g / max), encodeSrgb(b / max));
 }

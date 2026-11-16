@@ -107,7 +107,7 @@ export class BohrAtomNode extends Node {
     });
     this.electron = new Circle(BOHR_ATOM_NODE_SETTINGS.ELECTRON_RADIUS, {
       fill: LightAndAtomsColors.electronColorProperty,
-      stroke: "white",
+      stroke: LightAndAtomsColors.electronOutlineColorProperty,
       lineWidth: BOHR_ATOM_NODE_SETTINGS.ELECTRON_LINE_WIDTH,
     });
 
