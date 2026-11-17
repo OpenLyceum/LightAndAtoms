@@ -164,16 +164,18 @@ export class PhotonReadoutPanel extends LightAndAtomsPanel {
       );
     }
 
-    super(
-      new VBox({
-        align: "left",
-        spacing: PHOTON_READOUT_PANEL_SETTINGS.CONSTRUCTOR_SPACING,
-        children,
-        minContentWidth: PANEL_CONTENT_WIDTH,
-      }),
-    );
+    const content = new VBox({
+      align: "left",
+      spacing: PHOTON_READOUT_PANEL_SETTINGS.CONSTRUCTOR_SPACING,
+      children,
+      minContentWidth: PANEL_CONTENT_WIDTH,
+    });
+    super(content);
 
+    // Dispose content before DerivedProperties so Text/RichText unlink from StringManager
+    // and from those Properties; otherwise PanelConstraint→panel stays rooted forever.
     this.disposePhotonReadoutPanel = () => {
+      content.disposeSubtree();
       for (const property of derived) {
         property.dispose();
       }

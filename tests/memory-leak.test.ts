@@ -9,13 +9,14 @@
  * tests below using forceGC().
  */
 
-import { NumberProperty, Property } from "scenerystack/axon";
+import { BooleanProperty, NumberProperty, Property } from "scenerystack/axon";
 import { Range } from "scenerystack/dot";
 import { flatSpectrum } from "../src/common/model/SpectrumSynthesis.js";
 import { TimeModel } from "../src/common/TimeModel.js";
 import { SpectrumMarkerNode } from "../src/common/view/SpectrumMarkerNode.js";
 import { SpectrumStripNode } from "../src/common/view/SpectrumStripNode.js";
 import { PhotonState } from "../src/spectrum/model/EMSpectrumModel.js";
+import { PhotonReadoutPanel } from "../src/spectrum/view/PhotonReadoutPanel.js";
 import { WaveNode } from "../src/spectrum/view/WaveNode.js";
 import { describeDisposalLeaks } from "./helpers/memoryLeak.js";
 
@@ -24,6 +25,7 @@ const spectrumProperty = new Property(flatSpectrum());
 const valueProperty = new NumberProperty(0.5);
 const photon = new PhotonState(500e-9);
 const titleProperty = new Property("Photon 1");
+const inverseSecondsProperty = new BooleanProperty(false);
 
 describeDisposalLeaks([
   { name: "TimeModel", create: () => new TimeModel(), idempotentDispose: true },
@@ -46,4 +48,9 @@ describeDisposalLeaks([
       }),
   },
   { name: "WaveNode", create: () => new WaveNode(photon, titleProperty, "yellow", 200, 60) },
+  {
+    name: "PhotonReadoutPanel",
+    create: () => new PhotonReadoutPanel(photon, titleProperty, "yellow", inverseSecondsProperty, null),
+    keepAlive: () => [photon, titleProperty, inverseSecondsProperty],
+  },
 ]);
