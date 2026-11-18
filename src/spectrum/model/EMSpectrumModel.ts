@@ -67,7 +67,7 @@ export class EMSpectrumModel implements TModel {
   public readonly showEquationsProperty = new BooleanProperty(false);
 
   /** Drives the travelling-wave animation; starts playing. */
-  public readonly timer = new TimeModel(true);
+  public readonly timer = new TimeModel({ initiallyPlaying: true });
 
   public reset(): void {
     this.photon1.reset();
