@@ -16,6 +16,7 @@
  * InterferometryLab's spectralColor.ts.
  */
 
+import { roundSymmetric } from "scenerystack/dot";
 import { Color } from "scenerystack/scenery";
 import { VisibleColor } from "scenerystack/scenery-phet";
 
@@ -47,7 +48,7 @@ const EQUAL_ENERGY_RGB = [1.2044, 0.9484, 0.9088] as const;
 function encodeSrgb(linear: number): number {
   const clamped = Math.min(1, Math.max(0, linear));
   const encoded = clamped <= 0.0031308 ? 12.92 * clamped : 1.055 * clamped ** (1 / 2.4) - 0.055;
-  return Math.round(255 * encoded);
+  return roundSymmetric(255 * encoded);
 }
 
 /**

@@ -65,11 +65,11 @@ export class HydrogenSpectrumNode extends Node {
     super();
     const strings = StringManager.getInstance().getHydrogenAtomStrings();
     const common = StringManager.getInstance().getCommonStrings();
-    const isAbsorption = new DerivedProperty([model.modeProperty], (mode) => mode === HydrogenMode.ABSORPTION);
+    const isAbsorptionProperty = new DerivedProperty([model.modeProperty], (mode) => mode === HydrogenMode.ABSORPTION);
 
     const title = new Text(
       new DerivedProperty(
-        [isAbsorption, strings.emissionSpectrumStringProperty, strings.absorptionSpectrumStringProperty],
+        [isAbsorptionProperty, strings.emissionSpectrumStringProperty, strings.absorptionSpectrumStringProperty],
         (absorption, emission, absorptionTitle) => (absorption ? absorptionTitle : emission),
       ),
       {
@@ -98,7 +98,7 @@ export class HydrogenSpectrumNode extends Node {
           maxWavelength: section.maxNm,
           x,
           y: top,
-          visibleProperty: isAbsorption,
+          visibleProperty: isAbsorptionProperty,
         });
         this.addChild(
           new Rectangle(x, top, section.width, STRIP_HEIGHT, { fill: LightAndAtomsColors.spectrumStripColorProperty }),
@@ -106,7 +106,7 @@ export class HydrogenSpectrumNode extends Node {
         this.addChild(rainbow);
       } else {
         const background = new Rectangle(x, top, section.width, STRIP_HEIGHT);
-        isAbsorption.link((absorption) => {
+        isAbsorptionProperty.link((absorption) => {
           background.fill = absorption
             ? LightAndAtomsColors.invisibleLineColorProperty
             : LightAndAtomsColors.spectrumStripColorProperty;
@@ -179,7 +179,7 @@ export class HydrogenSpectrumNode extends Node {
         child.dispose();
       }
       lineLayer.removeAllChildren();
-      const absorption = isAbsorption.value;
+      const absorption = isAbsorptionProperty.value;
       const lines: RecordedLine[] = [...model.recordedLines].sort((a, b) => a.wavelength - b.wavelength);
       let lastLabelX = Number.NEGATIVE_INFINITY;
       for (const recorded of lines) {
@@ -210,7 +210,7 @@ export class HydrogenSpectrumNode extends Node {
     };
     model.recordedLines.addItemAddedListener(redraw);
     model.recordedLines.addItemRemovedListener(redraw);
-    Multilink.multilink([isAbsorption], redraw);
+    Multilink.multilink([isAbsorptionProperty], redraw);
 
     // The title row sits above the line labels, with Clear at its right end.
     title.bottom = top - HYDROGEN_SPECTRUM_NODE_SETTINGS.CONSTRUCTOR_BOTTOM_OFFSET;
