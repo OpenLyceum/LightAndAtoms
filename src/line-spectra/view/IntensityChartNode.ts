@@ -9,7 +9,7 @@ import { INTENSITY_CHART_NODE_SETTINGS } from "../../LightAndAtomsConstants.js";
 
 import type { TReadOnlyProperty } from "scenerystack/axon";
 import { ChartRectangle, ChartTransform, GridLineSet, LinePlot, TickLabelSet, TickMarkSet } from "scenerystack/bamboo";
-import { Range, Vector2 } from "scenerystack/dot";
+import { Range, roundSymmetric, Vector2 } from "scenerystack/dot";
 import { Orientation } from "scenerystack/phet-core";
 import { Node, Text } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
@@ -77,7 +77,7 @@ export class IntensityChartNode extends Node {
       new TickLabelSet(chartTransform, Orientation.HORIZONTAL, 50, {
         edge: "min",
         createLabel: (value: number) =>
-          new Text(String(Math.round(value)), { font: tickFont, fill: LightAndAtomsColors.textColorProperty }),
+          new Text(String(roundSymmetric(value)), { font: tickFont, fill: LightAndAtomsColors.textColorProperty }),
       }),
       xLabel,
       yLabel,

@@ -9,7 +9,7 @@ import { LINE_SPECTRA_SCREEN_VIEW_SETTINGS } from "../../LightAndAtomsConstants.
  */
 
 import { DerivedProperty, Multilink, type TReadOnlyProperty } from "scenerystack/axon";
-import { linear, toFixed } from "scenerystack/dot";
+import { linear, roundSymmetric, toFixed } from "scenerystack/dot";
 import { type EmptySelfOptions, optionize } from "scenerystack/phet-core";
 import { StringUtils } from "scenerystack/phetcommon";
 import { HBox, Node, Rectangle, Text, VBox } from "scenerystack/scenery";
@@ -200,14 +200,14 @@ export class LineSpectraScreenView extends ScreenView {
 
     // Comparison (absorption mode) and reference strips share one row below the eyepiece.
     const rowTop = eyepieceTop + EYEPIECE_HEIGHT + 8;
-    const comparisonVisible = new DerivedProperty(
+    const comparisonVisibleProperty = new DerivedProperty(
       [model.sourceTypeProperty, model.showEmissionComparisonProperty],
       (sourceType, show) => sourceType === SourceType.ABSORPTION && show,
     );
     const comparisonLabel = smallLabel(strings.emissionOfGasStringProperty);
     comparisonLabel.left = SPECTRUM_LEFT;
     comparisonLabel.top = rowTop;
-    comparisonLabel.visibleProperty = comparisonVisible;
+    comparisonLabel.visibleProperty = comparisonVisibleProperty;
     const comparisonStrip = new SpectrumStripNode(
       model.comparisonSpectrumProperty,
       SPECTRUM_WIDTH,
@@ -216,7 +216,7 @@ export class LineSpectraScreenView extends ScreenView {
         ...stripOptions,
         x: SPECTRUM_LEFT,
         y: comparisonLabel.bottom + 2,
-        visibleProperty: comparisonVisible,
+        visibleProperty: comparisonVisibleProperty,
       },
     );
 
@@ -239,13 +239,13 @@ export class LineSpectraScreenView extends ScreenView {
       ],
     });
     const referenceStripTop = (): number =>
-      (comparisonVisible.value ? comparisonStrip.bottom : eyepieceTop + EYEPIECE_HEIGHT) + 8;
+      (comparisonVisibleProperty.value ? comparisonStrip.bottom : eyepieceTop + EYEPIECE_HEIGHT) + 8;
     const referenceStrip = new SpectrumStripNode(model.referenceSpectrumProperty, SPECTRUM_WIDTH, SMALL_STRIP_HEIGHT, {
       ...stripOptions,
       x: SPECTRUM_LEFT,
       visibleProperty: new DerivedProperty([model.referenceElementProperty], (element) => element !== null),
     });
-    Multilink.multilink([comparisonVisible, referenceRow.localBoundsProperty], () => {
+    Multilink.multilink([comparisonVisibleProperty, referenceRow.localBoundsProperty], () => {
       referenceRow.left = SPECTRUM_LEFT;
       referenceRow.top = referenceStripTop();
       referenceStrip.top = referenceRow.bottom + 2;
@@ -284,7 +284,7 @@ export class LineSpectraScreenView extends ScreenView {
       createAriaValueText: (nm) =>
         StringUtils.fillIn(a11y.cursorValueStringProperty.value, {
           value: toFixed(nm, 1),
-          intensity: Math.round(100 * sampleAt(model.spectrumProperty.value, nm)),
+          intensity: roundSymmetric(100 * sampleAt(model.spectrumProperty.value, nm)),
         }),
       ariaValueDependencies: [a11y.cursorValueStringProperty, model.spectrumProperty],
       accessibleName: a11y.cursorStringProperty,

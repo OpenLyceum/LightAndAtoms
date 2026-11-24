@@ -1,3 +1,4 @@
+import { roundSymmetric } from "scenerystack/dot";
 import { SPECTRUM_SYNTHESIS_SETTINGS } from "../../LightAndAtomsConstants.js";
 /**
  * SpectrumSynthesis.ts
@@ -40,7 +41,7 @@ export type SampledSpectrum = Float64Array;
 
 /** The shared wavelength grid, nm. */
 export const SPECTRUM_WAVELENGTHS: Float64Array = (() => {
-  const count = Math.round((SPECTROSCOPE_MAX_NM - SPECTROSCOPE_MIN_NM) / SPECTRUM_SAMPLE_STEP_NM) + 1;
+  const count = roundSymmetric((SPECTROSCOPE_MAX_NM - SPECTROSCOPE_MIN_NM) / SPECTRUM_SAMPLE_STEP_NM) + 1;
   const grid = new Float64Array(count);
   for (let i = 0; i < count; i++) {
     grid[i] = SPECTROSCOPE_MIN_NM + i * SPECTRUM_SAMPLE_STEP_NM;

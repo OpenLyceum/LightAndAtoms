@@ -42,12 +42,12 @@ function parenthesized(markup: string): string {
 export function createHydrogenEquationLines(model: HydrogenAtomModel): TReadOnlyProperty<string>[] {
   const strings = StringManager.getInstance().getHydrogenAtomStrings();
 
-  const levelFormula = new DerivedProperty([model.energyUnitProperty], (unit) => {
+  const levelFormulaProperty = new DerivedProperty([model.energyUnitProperty], (unit) => {
     const constant = energyMarkup(HYDROGEN_IONIZATION_ENERGY, unit);
     return `<i>E</i><sub>n</sub> = −${constant} / <i>n</i><sup>2</sup>`;
   });
 
-  const worked = new DerivedProperty(
+  const workedProperty = new DerivedProperty(
     [
       model.lastTransitionProperty,
       model.energyUnitProperty,
@@ -77,5 +77,5 @@ export function createHydrogenEquationLines(model: HydrogenAtomModel): TReadOnly
       ].join("<br>");
     },
   );
-  return [levelFormula, worked];
+  return [levelFormulaProperty, workedProperty];
 }

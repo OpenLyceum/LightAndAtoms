@@ -7,7 +7,7 @@
  */
 
 import { DerivedProperty, type TReadOnlyProperty } from "scenerystack/axon";
-import { toFixed } from "scenerystack/dot";
+import { roundSymmetric, toFixed } from "scenerystack/dot";
 import { StringUtils } from "scenerystack/phetcommon";
 import { ScreenSummaryContent } from "scenerystack/sim";
 import { SPECTRUM_WAVELENGTHS, sampleAt } from "../../common/model/SpectrumSynthesis.js";
@@ -67,7 +67,7 @@ export class LineSpectraScreenSummaryContent extends ScreenSummaryContent {
           source: sourceName(),
           peak: toFixed(SPECTRUM_WAVELENGTHS[peakIndex] ?? 0, 1),
           cursor: toFixed(cursor, 1),
-          intensity: Math.round(100 * sampleAt(spectrum, cursor)),
+          intensity: roundSymmetric(100 * sampleAt(spectrum, cursor)),
         });
       },
     );
